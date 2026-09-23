@@ -1,0 +1,101 @@
+confidence_threshold,image,condition,person_count,person_confidences,bbox_ratios
+0.5,fall001.jpg,falling,0,,
+0.5,fall002.jpg,falling,1,0.5399,1.2600
+0.5,fall003.jpg,falling,0,,
+0.5,fall004.jpg,falling,1,0.8260,2.0000
+0.5,fall005.jpg,falling,0,,
+0.5,fall006.jpg,falling,1,0.7049,1.2000
+0.5,fall007.jpg,falling,1,0.7124,1.9394
+0.5,fall008.jpg,falling,1,0.8412,2.3917
+0.5,fall009.jpg,falling,0,,
+0.5,fall010.jpg,falling,3,0.9125;0.7811;0.5630,0.8273;0.6993;0.7207
+0.5,not fallen001.jpg,sitting,1,0.9163,1.0261
+0.5,not fallen002.jpg,standing,2,0.8683;0.7849,0.3409;0.2841
+0.5,not fallen003.jpg,sitting,1,0.9422,0.9381
+0.5,not fallen004.jpg,standing,1,0.9082,0.2876
+0.5,not fallen005.jpg,sitting,1,0.9073,0.8106
+0.5,not fallen006.jpg,sitting,1,0.8199,0.4115
+0.5,not fallen007.jpg,standing,1,0.9156,0.6746
+0.5,not fallen008.jpg,sitting,1,0.9097,0.6557
+0.5,not fallen009.jpg,sitting,1,0.6744,0.6743
+0.5,not fallen010.jpg,sitting,1,0.8638,0.8023
+0.4,fall001.jpg,falling,0,,
+0.4,fall002.jpg,falling,1,0.5399,1.2600
+0.4,fall003.jpg,falling,0,,
+0.4,fall004.jpg,falling,1,0.8260,2.0000
+0.4,fall005.jpg,falling,1,0.4148,1.1795
+0.4,fall006.jpg,falling,1,0.7049,1.2000
+0.4,fall007.jpg,falling,1,0.7124,1.9394
+0.4,fall008.jpg,falling,1,0.8412,2.3917
+0.4,fall009.jpg,falling,1,0.4381,1.8525
+0.4,fall010.jpg,falling,3,0.9125;0.7811;0.5630,0.8273;0.6993;0.7207
+0.4,not fallen001.jpg,sitting,1,0.9163,1.0261
+0.4,not fallen002.jpg,standing,2,0.8683;0.7849,0.3409;0.2841
+0.4,not fallen003.jpg,sitting,1,0.9422,0.9381
+0.4,not fallen004.jpg,standing,1,0.9082,0.2876
+0.4,not fallen005.jpg,sitting,1,0.9073,0.8106
+0.4,not fallen006.jpg,sitting,1,0.8199,0.4115
+0.4,not fallen007.jpg,standing,1,0.9156,0.6746
+0.4,not fallen008.jpg,sitting,1,0.9097,0.6557
+0.4,not fallen009.jpg,sitting,1,0.6744,0.6743
+0.4,not fallen010.jpg,sitting,1,0.8638,0.8023
+0.3,fall001.jpg,falling,0,,
+0.3,fall002.jpg,falling,1,0.5399,1.2600
+0.3,fall003.jpg,falling,0,,
+0.3,fall004.jpg,falling,1,0.8260,2.0000
+0.3,fall005.jpg,falling,1,0.4148,1.1795
+0.3,fall006.jpg,falling,1,0.7049,1.2000
+0.3,fall007.jpg,falling,1,0.7124,1.9394
+0.3,fall008.jpg,falling,1,0.8412,2.3917
+0.3,fall009.jpg,falling,1,0.4381,1.8525
+0.3,fall010.jpg,falling,3,0.9125;0.7811;0.5630,0.8273;0.6993;0.7207
+0.3,not fallen001.jpg,sitting,1,0.9163,1.0261
+0.3,not fallen002.jpg,standing,2,0.8683;0.7849,0.3409;0.2841
+0.3,not fallen003.jpg,sitting,1,0.9422,0.9381
+0.3,not fallen004.jpg,standing,1,0.9082,0.2876
+0.3,not fallen005.jpg,sitting,1,0.9073,0.8106
+0.3,not fallen006.jpg,sitting,1,0.8199,0.4115
+0.3,not fallen007.jpg,standing,1,0.9156,0.6746
+0.3,not fallen008.jpg,sitting,1,0.9097,0.6557
+0.3,not fallen009.jpg,sitting,1,0.6744,0.6743
+0.3,not fallen010.jpg,sitting,1,0.8638,0.8023
+0.2,fall001.jpg,falling,1,0.2342,3.1081
+0.2,fall002.jpg,falling,1,0.5399,1.2600
+0.2,fall003.jpg,falling,0,,
+0.2,fall004.jpg,falling,1,0.8260,2.0000
+0.2,fall005.jpg,falling,1,0.4148,1.1795
+0.2,fall006.jpg,falling,1,0.7049,1.2000
+0.2,fall007.jpg,falling,1,0.7124,1.9394
+0.2,fall008.jpg,falling,1,0.8412,2.3917
+0.2,fall009.jpg,falling,1,0.4381,1.8525
+0.2,fall010.jpg,falling,3,0.9125;0.7811;0.5630,0.8273;0.6993;0.7207
+0.2,not fallen001.jpg,sitting,1,0.9163,1.0261
+0.2,not fallen002.jpg,standing,2,0.8683;0.7849,0.3409;0.2841
+0.2,not fallen003.jpg,sitting,1,0.9422,0.9381
+0.2,not fallen004.jpg,standing,2,0.9082;0.2444,0.2876;0.2987
+0.2,not fallen005.jpg,sitting,1,0.9073,0.8106
+0.2,not fallen006.jpg,sitting,1,0.8199,0.4115
+0.2,not fallen007.jpg,standing,1,0.9156,0.6746
+0.2,not fallen008.jpg,sitting,1,0.9097,0.6557
+0.2,not fallen009.jpg,sitting,1,0.6744,0.6743
+0.2,not fallen010.jpg,sitting,1,0.8638,0.8023
+0.1,fall001.jpg,falling,1,0.2342,3.1081
+0.1,fall002.jpg,falling,1,0.5399,1.2600
+0.1,fall003.jpg,falling,1,0.1507,1.8308
+0.1,fall004.jpg,falling,1,0.8260,2.0000
+0.1,fall005.jpg,falling,1,0.4148,1.1795
+0.1,fall006.jpg,falling,2,0.7049;0.1205,1.2000;2.1518
+0.1,fall007.jpg,falling,1,0.7124,1.9394
+0.1,fall008.jpg,falling,1,0.8412,2.3917
+0.1,fall009.jpg,falling,1,0.4381,1.8525
+0.1,fall010.jpg,falling,3,0.9125;0.7811;0.5630,0.8273;0.6993;0.7207
+0.1,not fallen001.jpg,sitting,1,0.9163,1.0261
+0.1,not fallen002.jpg,standing,3,0.8683;0.7849;0.1906,0.3409;0.2841;0.5121
+0.1,not fallen003.jpg,sitting,1,0.9422,0.9381
+0.1,not fallen004.jpg,standing,2,0.9082;0.2444,0.2876;0.2987
+0.1,not fallen005.jpg,sitting,1,0.9073,0.8106
+0.1,not fallen006.jpg,sitting,1,0.8199,0.4115
+0.1,not fallen007.jpg,standing,1,0.9156,0.6746
+0.1,not fallen008.jpg,sitting,1,0.9097,0.6557
+0.1,not fallen009.jpg,sitting,2,0.6744;0.1351,0.6743;0.6149
+0.1,not fallen010.jpg,sitting,1,0.8638,0.8023

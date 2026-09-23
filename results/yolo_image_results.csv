@@ -1,0 +1,801 @@
+confidence,threshold,image,actual,predicted,classification,correct,person_count,bbox_ratios,reason
+0.5,0.7,fall001.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,0.7,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.5,0.7,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,0.7,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.5,0.7,fall005.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,0.7,fall006.jpg,falling,FALL,TP,True,1,1.2000,At least one person exceeded threshold
+0.5,0.7,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.5,0.7,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.5,0.7,fall009.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,0.7,fall010.jpg,falling,FALL,TP,True,3,0.8273;0.6993;0.7207,At least one person exceeded threshold
+0.5,0.7,not fallen001.jpg,sitting,FALL,FP,False,1,1.0261,At least one person exceeded threshold
+0.5,0.7,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.5,0.7,not fallen003.jpg,sitting,FALL,FP,False,1,0.9381,At least one person exceeded threshold
+0.5,0.7,not fallen004.jpg,standing,NOT FALL,TN,True,1,0.2876,No person exceeded threshold
+0.5,0.7,not fallen005.jpg,sitting,FALL,FP,False,1,0.8106,At least one person exceeded threshold
+0.5,0.7,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.5,0.7,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.5,0.7,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.5,0.7,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.5,0.7,not fallen010.jpg,sitting,FALL,FP,False,1,0.8023,At least one person exceeded threshold
+0.5,0.8,fall001.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,0.8,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.5,0.8,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,0.8,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.5,0.8,fall005.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,0.8,fall006.jpg,falling,FALL,TP,True,1,1.2000,At least one person exceeded threshold
+0.5,0.8,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.5,0.8,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.5,0.8,fall009.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,0.8,fall010.jpg,falling,FALL,TP,True,3,0.8273;0.6993;0.7207,At least one person exceeded threshold
+0.5,0.8,not fallen001.jpg,sitting,FALL,FP,False,1,1.0261,At least one person exceeded threshold
+0.5,0.8,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.5,0.8,not fallen003.jpg,sitting,FALL,FP,False,1,0.9381,At least one person exceeded threshold
+0.5,0.8,not fallen004.jpg,standing,NOT FALL,TN,True,1,0.2876,No person exceeded threshold
+0.5,0.8,not fallen005.jpg,sitting,FALL,FP,False,1,0.8106,At least one person exceeded threshold
+0.5,0.8,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.5,0.8,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.5,0.8,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.5,0.8,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.5,0.8,not fallen010.jpg,sitting,FALL,FP,False,1,0.8023,At least one person exceeded threshold
+0.5,0.9,fall001.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,0.9,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.5,0.9,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,0.9,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.5,0.9,fall005.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,0.9,fall006.jpg,falling,FALL,TP,True,1,1.2000,At least one person exceeded threshold
+0.5,0.9,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.5,0.9,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.5,0.9,fall009.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,0.9,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.5,0.9,not fallen001.jpg,sitting,FALL,FP,False,1,1.0261,At least one person exceeded threshold
+0.5,0.9,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.5,0.9,not fallen003.jpg,sitting,FALL,FP,False,1,0.9381,At least one person exceeded threshold
+0.5,0.9,not fallen004.jpg,standing,NOT FALL,TN,True,1,0.2876,No person exceeded threshold
+0.5,0.9,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.5,0.9,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.5,0.9,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.5,0.9,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.5,0.9,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.5,0.9,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.5,1.0,fall001.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,1.0,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.5,1.0,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,1.0,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.5,1.0,fall005.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,1.0,fall006.jpg,falling,FALL,TP,True,1,1.2000,At least one person exceeded threshold
+0.5,1.0,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.5,1.0,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.5,1.0,fall009.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,1.0,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.5,1.0,not fallen001.jpg,sitting,FALL,FP,False,1,1.0261,At least one person exceeded threshold
+0.5,1.0,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.5,1.0,not fallen003.jpg,sitting,NOT FALL,TN,True,1,0.9381,No person exceeded threshold
+0.5,1.0,not fallen004.jpg,standing,NOT FALL,TN,True,1,0.2876,No person exceeded threshold
+0.5,1.0,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.5,1.0,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.5,1.0,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.5,1.0,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.5,1.0,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.5,1.0,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.5,1.1,fall001.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,1.1,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.5,1.1,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,1.1,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.5,1.1,fall005.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,1.1,fall006.jpg,falling,FALL,TP,True,1,1.2000,At least one person exceeded threshold
+0.5,1.1,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.5,1.1,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.5,1.1,fall009.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,1.1,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.5,1.1,not fallen001.jpg,sitting,NOT FALL,TN,True,1,1.0261,No person exceeded threshold
+0.5,1.1,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.5,1.1,not fallen003.jpg,sitting,NOT FALL,TN,True,1,0.9381,No person exceeded threshold
+0.5,1.1,not fallen004.jpg,standing,NOT FALL,TN,True,1,0.2876,No person exceeded threshold
+0.5,1.1,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.5,1.1,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.5,1.1,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.5,1.1,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.5,1.1,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.5,1.1,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.5,1.2,fall001.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,1.2,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.5,1.2,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,1.2,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.5,1.2,fall005.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,1.2,fall006.jpg,falling,FALL,TP,True,1,1.2000,At least one person exceeded threshold
+0.5,1.2,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.5,1.2,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.5,1.2,fall009.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,1.2,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.5,1.2,not fallen001.jpg,sitting,NOT FALL,TN,True,1,1.0261,No person exceeded threshold
+0.5,1.2,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.5,1.2,not fallen003.jpg,sitting,NOT FALL,TN,True,1,0.9381,No person exceeded threshold
+0.5,1.2,not fallen004.jpg,standing,NOT FALL,TN,True,1,0.2876,No person exceeded threshold
+0.5,1.2,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.5,1.2,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.5,1.2,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.5,1.2,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.5,1.2,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.5,1.2,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.5,1.3,fall001.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,1.3,fall002.jpg,falling,NOT FALL,FN,False,1,1.2600,No person exceeded threshold
+0.5,1.3,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,1.3,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.5,1.3,fall005.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,1.3,fall006.jpg,falling,NOT FALL,FN,False,1,1.2000,No person exceeded threshold
+0.5,1.3,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.5,1.3,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.5,1.3,fall009.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,1.3,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.5,1.3,not fallen001.jpg,sitting,NOT FALL,TN,True,1,1.0261,No person exceeded threshold
+0.5,1.3,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.5,1.3,not fallen003.jpg,sitting,NOT FALL,TN,True,1,0.9381,No person exceeded threshold
+0.5,1.3,not fallen004.jpg,standing,NOT FALL,TN,True,1,0.2876,No person exceeded threshold
+0.5,1.3,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.5,1.3,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.5,1.3,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.5,1.3,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.5,1.3,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.5,1.3,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.5,1.4,fall001.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,1.4,fall002.jpg,falling,NOT FALL,FN,False,1,1.2600,No person exceeded threshold
+0.5,1.4,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,1.4,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.5,1.4,fall005.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,1.4,fall006.jpg,falling,NOT FALL,FN,False,1,1.2000,No person exceeded threshold
+0.5,1.4,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.5,1.4,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.5,1.4,fall009.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.5,1.4,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.5,1.4,not fallen001.jpg,sitting,NOT FALL,TN,True,1,1.0261,No person exceeded threshold
+0.5,1.4,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.5,1.4,not fallen003.jpg,sitting,NOT FALL,TN,True,1,0.9381,No person exceeded threshold
+0.5,1.4,not fallen004.jpg,standing,NOT FALL,TN,True,1,0.2876,No person exceeded threshold
+0.5,1.4,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.5,1.4,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.5,1.4,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.5,1.4,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.5,1.4,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.5,1.4,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.4,0.7,fall001.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.4,0.7,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.4,0.7,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.4,0.7,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.4,0.7,fall005.jpg,falling,FALL,TP,True,1,1.1795,At least one person exceeded threshold
+0.4,0.7,fall006.jpg,falling,FALL,TP,True,1,1.2000,At least one person exceeded threshold
+0.4,0.7,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.4,0.7,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.4,0.7,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.4,0.7,fall010.jpg,falling,FALL,TP,True,3,0.8273;0.6993;0.7207,At least one person exceeded threshold
+0.4,0.7,not fallen001.jpg,sitting,FALL,FP,False,1,1.0261,At least one person exceeded threshold
+0.4,0.7,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.4,0.7,not fallen003.jpg,sitting,FALL,FP,False,1,0.9381,At least one person exceeded threshold
+0.4,0.7,not fallen004.jpg,standing,NOT FALL,TN,True,1,0.2876,No person exceeded threshold
+0.4,0.7,not fallen005.jpg,sitting,FALL,FP,False,1,0.8106,At least one person exceeded threshold
+0.4,0.7,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.4,0.7,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.4,0.7,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.4,0.7,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.4,0.7,not fallen010.jpg,sitting,FALL,FP,False,1,0.8023,At least one person exceeded threshold
+0.4,0.8,fall001.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.4,0.8,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.4,0.8,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.4,0.8,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.4,0.8,fall005.jpg,falling,FALL,TP,True,1,1.1795,At least one person exceeded threshold
+0.4,0.8,fall006.jpg,falling,FALL,TP,True,1,1.2000,At least one person exceeded threshold
+0.4,0.8,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.4,0.8,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.4,0.8,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.4,0.8,fall010.jpg,falling,FALL,TP,True,3,0.8273;0.6993;0.7207,At least one person exceeded threshold
+0.4,0.8,not fallen001.jpg,sitting,FALL,FP,False,1,1.0261,At least one person exceeded threshold
+0.4,0.8,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.4,0.8,not fallen003.jpg,sitting,FALL,FP,False,1,0.9381,At least one person exceeded threshold
+0.4,0.8,not fallen004.jpg,standing,NOT FALL,TN,True,1,0.2876,No person exceeded threshold
+0.4,0.8,not fallen005.jpg,sitting,FALL,FP,False,1,0.8106,At least one person exceeded threshold
+0.4,0.8,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.4,0.8,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.4,0.8,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.4,0.8,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.4,0.8,not fallen010.jpg,sitting,FALL,FP,False,1,0.8023,At least one person exceeded threshold
+0.4,0.9,fall001.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.4,0.9,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.4,0.9,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.4,0.9,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.4,0.9,fall005.jpg,falling,FALL,TP,True,1,1.1795,At least one person exceeded threshold
+0.4,0.9,fall006.jpg,falling,FALL,TP,True,1,1.2000,At least one person exceeded threshold
+0.4,0.9,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.4,0.9,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.4,0.9,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.4,0.9,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.4,0.9,not fallen001.jpg,sitting,FALL,FP,False,1,1.0261,At least one person exceeded threshold
+0.4,0.9,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.4,0.9,not fallen003.jpg,sitting,FALL,FP,False,1,0.9381,At least one person exceeded threshold
+0.4,0.9,not fallen004.jpg,standing,NOT FALL,TN,True,1,0.2876,No person exceeded threshold
+0.4,0.9,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.4,0.9,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.4,0.9,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.4,0.9,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.4,0.9,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.4,0.9,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.4,1.0,fall001.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.4,1.0,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.4,1.0,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.4,1.0,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.4,1.0,fall005.jpg,falling,FALL,TP,True,1,1.1795,At least one person exceeded threshold
+0.4,1.0,fall006.jpg,falling,FALL,TP,True,1,1.2000,At least one person exceeded threshold
+0.4,1.0,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.4,1.0,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.4,1.0,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.4,1.0,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.4,1.0,not fallen001.jpg,sitting,FALL,FP,False,1,1.0261,At least one person exceeded threshold
+0.4,1.0,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.4,1.0,not fallen003.jpg,sitting,NOT FALL,TN,True,1,0.9381,No person exceeded threshold
+0.4,1.0,not fallen004.jpg,standing,NOT FALL,TN,True,1,0.2876,No person exceeded threshold
+0.4,1.0,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.4,1.0,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.4,1.0,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.4,1.0,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.4,1.0,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.4,1.0,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.4,1.1,fall001.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.4,1.1,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.4,1.1,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.4,1.1,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.4,1.1,fall005.jpg,falling,FALL,TP,True,1,1.1795,At least one person exceeded threshold
+0.4,1.1,fall006.jpg,falling,FALL,TP,True,1,1.2000,At least one person exceeded threshold
+0.4,1.1,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.4,1.1,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.4,1.1,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.4,1.1,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.4,1.1,not fallen001.jpg,sitting,NOT FALL,TN,True,1,1.0261,No person exceeded threshold
+0.4,1.1,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.4,1.1,not fallen003.jpg,sitting,NOT FALL,TN,True,1,0.9381,No person exceeded threshold
+0.4,1.1,not fallen004.jpg,standing,NOT FALL,TN,True,1,0.2876,No person exceeded threshold
+0.4,1.1,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.4,1.1,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.4,1.1,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.4,1.1,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.4,1.1,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.4,1.1,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.4,1.2,fall001.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.4,1.2,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.4,1.2,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.4,1.2,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.4,1.2,fall005.jpg,falling,NOT FALL,FN,False,1,1.1795,No person exceeded threshold
+0.4,1.2,fall006.jpg,falling,FALL,TP,True,1,1.2000,At least one person exceeded threshold
+0.4,1.2,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.4,1.2,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.4,1.2,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.4,1.2,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.4,1.2,not fallen001.jpg,sitting,NOT FALL,TN,True,1,1.0261,No person exceeded threshold
+0.4,1.2,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.4,1.2,not fallen003.jpg,sitting,NOT FALL,TN,True,1,0.9381,No person exceeded threshold
+0.4,1.2,not fallen004.jpg,standing,NOT FALL,TN,True,1,0.2876,No person exceeded threshold
+0.4,1.2,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.4,1.2,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.4,1.2,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.4,1.2,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.4,1.2,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.4,1.2,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.4,1.3,fall001.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.4,1.3,fall002.jpg,falling,NOT FALL,FN,False,1,1.2600,No person exceeded threshold
+0.4,1.3,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.4,1.3,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.4,1.3,fall005.jpg,falling,NOT FALL,FN,False,1,1.1795,No person exceeded threshold
+0.4,1.3,fall006.jpg,falling,NOT FALL,FN,False,1,1.2000,No person exceeded threshold
+0.4,1.3,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.4,1.3,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.4,1.3,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.4,1.3,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.4,1.3,not fallen001.jpg,sitting,NOT FALL,TN,True,1,1.0261,No person exceeded threshold
+0.4,1.3,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.4,1.3,not fallen003.jpg,sitting,NOT FALL,TN,True,1,0.9381,No person exceeded threshold
+0.4,1.3,not fallen004.jpg,standing,NOT FALL,TN,True,1,0.2876,No person exceeded threshold
+0.4,1.3,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.4,1.3,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.4,1.3,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.4,1.3,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.4,1.3,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.4,1.3,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.4,1.4,fall001.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.4,1.4,fall002.jpg,falling,NOT FALL,FN,False,1,1.2600,No person exceeded threshold
+0.4,1.4,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.4,1.4,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.4,1.4,fall005.jpg,falling,NOT FALL,FN,False,1,1.1795,No person exceeded threshold
+0.4,1.4,fall006.jpg,falling,NOT FALL,FN,False,1,1.2000,No person exceeded threshold
+0.4,1.4,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.4,1.4,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.4,1.4,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.4,1.4,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.4,1.4,not fallen001.jpg,sitting,NOT FALL,TN,True,1,1.0261,No person exceeded threshold
+0.4,1.4,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.4,1.4,not fallen003.jpg,sitting,NOT FALL,TN,True,1,0.9381,No person exceeded threshold
+0.4,1.4,not fallen004.jpg,standing,NOT FALL,TN,True,1,0.2876,No person exceeded threshold
+0.4,1.4,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.4,1.4,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.4,1.4,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.4,1.4,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.4,1.4,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.4,1.4,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.3,0.7,fall001.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.3,0.7,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.3,0.7,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.3,0.7,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.3,0.7,fall005.jpg,falling,FALL,TP,True,1,1.1795,At least one person exceeded threshold
+0.3,0.7,fall006.jpg,falling,FALL,TP,True,1,1.2000,At least one person exceeded threshold
+0.3,0.7,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.3,0.7,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.3,0.7,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.3,0.7,fall010.jpg,falling,FALL,TP,True,3,0.8273;0.6993;0.7207,At least one person exceeded threshold
+0.3,0.7,not fallen001.jpg,sitting,FALL,FP,False,1,1.0261,At least one person exceeded threshold
+0.3,0.7,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.3,0.7,not fallen003.jpg,sitting,FALL,FP,False,1,0.9381,At least one person exceeded threshold
+0.3,0.7,not fallen004.jpg,standing,NOT FALL,TN,True,1,0.2876,No person exceeded threshold
+0.3,0.7,not fallen005.jpg,sitting,FALL,FP,False,1,0.8106,At least one person exceeded threshold
+0.3,0.7,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.3,0.7,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.3,0.7,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.3,0.7,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.3,0.7,not fallen010.jpg,sitting,FALL,FP,False,1,0.8023,At least one person exceeded threshold
+0.3,0.8,fall001.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.3,0.8,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.3,0.8,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.3,0.8,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.3,0.8,fall005.jpg,falling,FALL,TP,True,1,1.1795,At least one person exceeded threshold
+0.3,0.8,fall006.jpg,falling,FALL,TP,True,1,1.2000,At least one person exceeded threshold
+0.3,0.8,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.3,0.8,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.3,0.8,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.3,0.8,fall010.jpg,falling,FALL,TP,True,3,0.8273;0.6993;0.7207,At least one person exceeded threshold
+0.3,0.8,not fallen001.jpg,sitting,FALL,FP,False,1,1.0261,At least one person exceeded threshold
+0.3,0.8,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.3,0.8,not fallen003.jpg,sitting,FALL,FP,False,1,0.9381,At least one person exceeded threshold
+0.3,0.8,not fallen004.jpg,standing,NOT FALL,TN,True,1,0.2876,No person exceeded threshold
+0.3,0.8,not fallen005.jpg,sitting,FALL,FP,False,1,0.8106,At least one person exceeded threshold
+0.3,0.8,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.3,0.8,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.3,0.8,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.3,0.8,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.3,0.8,not fallen010.jpg,sitting,FALL,FP,False,1,0.8023,At least one person exceeded threshold
+0.3,0.9,fall001.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.3,0.9,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.3,0.9,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.3,0.9,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.3,0.9,fall005.jpg,falling,FALL,TP,True,1,1.1795,At least one person exceeded threshold
+0.3,0.9,fall006.jpg,falling,FALL,TP,True,1,1.2000,At least one person exceeded threshold
+0.3,0.9,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.3,0.9,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.3,0.9,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.3,0.9,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.3,0.9,not fallen001.jpg,sitting,FALL,FP,False,1,1.0261,At least one person exceeded threshold
+0.3,0.9,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.3,0.9,not fallen003.jpg,sitting,FALL,FP,False,1,0.9381,At least one person exceeded threshold
+0.3,0.9,not fallen004.jpg,standing,NOT FALL,TN,True,1,0.2876,No person exceeded threshold
+0.3,0.9,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.3,0.9,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.3,0.9,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.3,0.9,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.3,0.9,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.3,0.9,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.3,1.0,fall001.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.3,1.0,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.3,1.0,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.3,1.0,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.3,1.0,fall005.jpg,falling,FALL,TP,True,1,1.1795,At least one person exceeded threshold
+0.3,1.0,fall006.jpg,falling,FALL,TP,True,1,1.2000,At least one person exceeded threshold
+0.3,1.0,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.3,1.0,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.3,1.0,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.3,1.0,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.3,1.0,not fallen001.jpg,sitting,FALL,FP,False,1,1.0261,At least one person exceeded threshold
+0.3,1.0,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.3,1.0,not fallen003.jpg,sitting,NOT FALL,TN,True,1,0.9381,No person exceeded threshold
+0.3,1.0,not fallen004.jpg,standing,NOT FALL,TN,True,1,0.2876,No person exceeded threshold
+0.3,1.0,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.3,1.0,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.3,1.0,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.3,1.0,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.3,1.0,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.3,1.0,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.3,1.1,fall001.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.3,1.1,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.3,1.1,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.3,1.1,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.3,1.1,fall005.jpg,falling,FALL,TP,True,1,1.1795,At least one person exceeded threshold
+0.3,1.1,fall006.jpg,falling,FALL,TP,True,1,1.2000,At least one person exceeded threshold
+0.3,1.1,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.3,1.1,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.3,1.1,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.3,1.1,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.3,1.1,not fallen001.jpg,sitting,NOT FALL,TN,True,1,1.0261,No person exceeded threshold
+0.3,1.1,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.3,1.1,not fallen003.jpg,sitting,NOT FALL,TN,True,1,0.9381,No person exceeded threshold
+0.3,1.1,not fallen004.jpg,standing,NOT FALL,TN,True,1,0.2876,No person exceeded threshold
+0.3,1.1,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.3,1.1,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.3,1.1,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.3,1.1,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.3,1.1,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.3,1.1,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.3,1.2,fall001.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.3,1.2,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.3,1.2,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.3,1.2,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.3,1.2,fall005.jpg,falling,NOT FALL,FN,False,1,1.1795,No person exceeded threshold
+0.3,1.2,fall006.jpg,falling,FALL,TP,True,1,1.2000,At least one person exceeded threshold
+0.3,1.2,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.3,1.2,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.3,1.2,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.3,1.2,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.3,1.2,not fallen001.jpg,sitting,NOT FALL,TN,True,1,1.0261,No person exceeded threshold
+0.3,1.2,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.3,1.2,not fallen003.jpg,sitting,NOT FALL,TN,True,1,0.9381,No person exceeded threshold
+0.3,1.2,not fallen004.jpg,standing,NOT FALL,TN,True,1,0.2876,No person exceeded threshold
+0.3,1.2,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.3,1.2,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.3,1.2,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.3,1.2,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.3,1.2,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.3,1.2,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.3,1.3,fall001.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.3,1.3,fall002.jpg,falling,NOT FALL,FN,False,1,1.2600,No person exceeded threshold
+0.3,1.3,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.3,1.3,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.3,1.3,fall005.jpg,falling,NOT FALL,FN,False,1,1.1795,No person exceeded threshold
+0.3,1.3,fall006.jpg,falling,NOT FALL,FN,False,1,1.2000,No person exceeded threshold
+0.3,1.3,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.3,1.3,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.3,1.3,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.3,1.3,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.3,1.3,not fallen001.jpg,sitting,NOT FALL,TN,True,1,1.0261,No person exceeded threshold
+0.3,1.3,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.3,1.3,not fallen003.jpg,sitting,NOT FALL,TN,True,1,0.9381,No person exceeded threshold
+0.3,1.3,not fallen004.jpg,standing,NOT FALL,TN,True,1,0.2876,No person exceeded threshold
+0.3,1.3,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.3,1.3,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.3,1.3,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.3,1.3,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.3,1.3,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.3,1.3,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.3,1.4,fall001.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.3,1.4,fall002.jpg,falling,NOT FALL,FN,False,1,1.2600,No person exceeded threshold
+0.3,1.4,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.3,1.4,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.3,1.4,fall005.jpg,falling,NOT FALL,FN,False,1,1.1795,No person exceeded threshold
+0.3,1.4,fall006.jpg,falling,NOT FALL,FN,False,1,1.2000,No person exceeded threshold
+0.3,1.4,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.3,1.4,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.3,1.4,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.3,1.4,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.3,1.4,not fallen001.jpg,sitting,NOT FALL,TN,True,1,1.0261,No person exceeded threshold
+0.3,1.4,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.3,1.4,not fallen003.jpg,sitting,NOT FALL,TN,True,1,0.9381,No person exceeded threshold
+0.3,1.4,not fallen004.jpg,standing,NOT FALL,TN,True,1,0.2876,No person exceeded threshold
+0.3,1.4,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.3,1.4,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.3,1.4,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.3,1.4,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.3,1.4,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.3,1.4,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.2,0.7,fall001.jpg,falling,FALL,TP,True,1,3.1081,At least one person exceeded threshold
+0.2,0.7,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.2,0.7,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.2,0.7,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.2,0.7,fall005.jpg,falling,FALL,TP,True,1,1.1795,At least one person exceeded threshold
+0.2,0.7,fall006.jpg,falling,FALL,TP,True,1,1.2000,At least one person exceeded threshold
+0.2,0.7,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.2,0.7,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.2,0.7,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.2,0.7,fall010.jpg,falling,FALL,TP,True,3,0.8273;0.6993;0.7207,At least one person exceeded threshold
+0.2,0.7,not fallen001.jpg,sitting,FALL,FP,False,1,1.0261,At least one person exceeded threshold
+0.2,0.7,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.2,0.7,not fallen003.jpg,sitting,FALL,FP,False,1,0.9381,At least one person exceeded threshold
+0.2,0.7,not fallen004.jpg,standing,NOT FALL,TN,True,2,0.2876;0.2987,No person exceeded threshold
+0.2,0.7,not fallen005.jpg,sitting,FALL,FP,False,1,0.8106,At least one person exceeded threshold
+0.2,0.7,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.2,0.7,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.2,0.7,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.2,0.7,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.2,0.7,not fallen010.jpg,sitting,FALL,FP,False,1,0.8023,At least one person exceeded threshold
+0.2,0.8,fall001.jpg,falling,FALL,TP,True,1,3.1081,At least one person exceeded threshold
+0.2,0.8,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.2,0.8,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.2,0.8,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.2,0.8,fall005.jpg,falling,FALL,TP,True,1,1.1795,At least one person exceeded threshold
+0.2,0.8,fall006.jpg,falling,FALL,TP,True,1,1.2000,At least one person exceeded threshold
+0.2,0.8,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.2,0.8,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.2,0.8,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.2,0.8,fall010.jpg,falling,FALL,TP,True,3,0.8273;0.6993;0.7207,At least one person exceeded threshold
+0.2,0.8,not fallen001.jpg,sitting,FALL,FP,False,1,1.0261,At least one person exceeded threshold
+0.2,0.8,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.2,0.8,not fallen003.jpg,sitting,FALL,FP,False,1,0.9381,At least one person exceeded threshold
+0.2,0.8,not fallen004.jpg,standing,NOT FALL,TN,True,2,0.2876;0.2987,No person exceeded threshold
+0.2,0.8,not fallen005.jpg,sitting,FALL,FP,False,1,0.8106,At least one person exceeded threshold
+0.2,0.8,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.2,0.8,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.2,0.8,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.2,0.8,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.2,0.8,not fallen010.jpg,sitting,FALL,FP,False,1,0.8023,At least one person exceeded threshold
+0.2,0.9,fall001.jpg,falling,FALL,TP,True,1,3.1081,At least one person exceeded threshold
+0.2,0.9,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.2,0.9,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.2,0.9,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.2,0.9,fall005.jpg,falling,FALL,TP,True,1,1.1795,At least one person exceeded threshold
+0.2,0.9,fall006.jpg,falling,FALL,TP,True,1,1.2000,At least one person exceeded threshold
+0.2,0.9,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.2,0.9,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.2,0.9,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.2,0.9,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.2,0.9,not fallen001.jpg,sitting,FALL,FP,False,1,1.0261,At least one person exceeded threshold
+0.2,0.9,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.2,0.9,not fallen003.jpg,sitting,FALL,FP,False,1,0.9381,At least one person exceeded threshold
+0.2,0.9,not fallen004.jpg,standing,NOT FALL,TN,True,2,0.2876;0.2987,No person exceeded threshold
+0.2,0.9,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.2,0.9,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.2,0.9,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.2,0.9,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.2,0.9,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.2,0.9,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.2,1.0,fall001.jpg,falling,FALL,TP,True,1,3.1081,At least one person exceeded threshold
+0.2,1.0,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.2,1.0,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.2,1.0,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.2,1.0,fall005.jpg,falling,FALL,TP,True,1,1.1795,At least one person exceeded threshold
+0.2,1.0,fall006.jpg,falling,FALL,TP,True,1,1.2000,At least one person exceeded threshold
+0.2,1.0,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.2,1.0,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.2,1.0,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.2,1.0,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.2,1.0,not fallen001.jpg,sitting,FALL,FP,False,1,1.0261,At least one person exceeded threshold
+0.2,1.0,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.2,1.0,not fallen003.jpg,sitting,NOT FALL,TN,True,1,0.9381,No person exceeded threshold
+0.2,1.0,not fallen004.jpg,standing,NOT FALL,TN,True,2,0.2876;0.2987,No person exceeded threshold
+0.2,1.0,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.2,1.0,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.2,1.0,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.2,1.0,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.2,1.0,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.2,1.0,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.2,1.1,fall001.jpg,falling,FALL,TP,True,1,3.1081,At least one person exceeded threshold
+0.2,1.1,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.2,1.1,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.2,1.1,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.2,1.1,fall005.jpg,falling,FALL,TP,True,1,1.1795,At least one person exceeded threshold
+0.2,1.1,fall006.jpg,falling,FALL,TP,True,1,1.2000,At least one person exceeded threshold
+0.2,1.1,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.2,1.1,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.2,1.1,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.2,1.1,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.2,1.1,not fallen001.jpg,sitting,NOT FALL,TN,True,1,1.0261,No person exceeded threshold
+0.2,1.1,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.2,1.1,not fallen003.jpg,sitting,NOT FALL,TN,True,1,0.9381,No person exceeded threshold
+0.2,1.1,not fallen004.jpg,standing,NOT FALL,TN,True,2,0.2876;0.2987,No person exceeded threshold
+0.2,1.1,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.2,1.1,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.2,1.1,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.2,1.1,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.2,1.1,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.2,1.1,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.2,1.2,fall001.jpg,falling,FALL,TP,True,1,3.1081,At least one person exceeded threshold
+0.2,1.2,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.2,1.2,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.2,1.2,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.2,1.2,fall005.jpg,falling,NOT FALL,FN,False,1,1.1795,No person exceeded threshold
+0.2,1.2,fall006.jpg,falling,FALL,TP,True,1,1.2000,At least one person exceeded threshold
+0.2,1.2,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.2,1.2,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.2,1.2,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.2,1.2,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.2,1.2,not fallen001.jpg,sitting,NOT FALL,TN,True,1,1.0261,No person exceeded threshold
+0.2,1.2,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.2,1.2,not fallen003.jpg,sitting,NOT FALL,TN,True,1,0.9381,No person exceeded threshold
+0.2,1.2,not fallen004.jpg,standing,NOT FALL,TN,True,2,0.2876;0.2987,No person exceeded threshold
+0.2,1.2,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.2,1.2,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.2,1.2,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.2,1.2,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.2,1.2,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.2,1.2,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.2,1.3,fall001.jpg,falling,FALL,TP,True,1,3.1081,At least one person exceeded threshold
+0.2,1.3,fall002.jpg,falling,NOT FALL,FN,False,1,1.2600,No person exceeded threshold
+0.2,1.3,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.2,1.3,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.2,1.3,fall005.jpg,falling,NOT FALL,FN,False,1,1.1795,No person exceeded threshold
+0.2,1.3,fall006.jpg,falling,NOT FALL,FN,False,1,1.2000,No person exceeded threshold
+0.2,1.3,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.2,1.3,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.2,1.3,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.2,1.3,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.2,1.3,not fallen001.jpg,sitting,NOT FALL,TN,True,1,1.0261,No person exceeded threshold
+0.2,1.3,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.2,1.3,not fallen003.jpg,sitting,NOT FALL,TN,True,1,0.9381,No person exceeded threshold
+0.2,1.3,not fallen004.jpg,standing,NOT FALL,TN,True,2,0.2876;0.2987,No person exceeded threshold
+0.2,1.3,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.2,1.3,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.2,1.3,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.2,1.3,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.2,1.3,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.2,1.3,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.2,1.4,fall001.jpg,falling,FALL,TP,True,1,3.1081,At least one person exceeded threshold
+0.2,1.4,fall002.jpg,falling,NOT FALL,FN,False,1,1.2600,No person exceeded threshold
+0.2,1.4,fall003.jpg,falling,NOT FALL,FN,False,0,,No person detected
+0.2,1.4,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.2,1.4,fall005.jpg,falling,NOT FALL,FN,False,1,1.1795,No person exceeded threshold
+0.2,1.4,fall006.jpg,falling,NOT FALL,FN,False,1,1.2000,No person exceeded threshold
+0.2,1.4,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.2,1.4,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.2,1.4,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.2,1.4,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.2,1.4,not fallen001.jpg,sitting,NOT FALL,TN,True,1,1.0261,No person exceeded threshold
+0.2,1.4,not fallen002.jpg,standing,NOT FALL,TN,True,2,0.3409;0.2841,No person exceeded threshold
+0.2,1.4,not fallen003.jpg,sitting,NOT FALL,TN,True,1,0.9381,No person exceeded threshold
+0.2,1.4,not fallen004.jpg,standing,NOT FALL,TN,True,2,0.2876;0.2987,No person exceeded threshold
+0.2,1.4,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.2,1.4,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.2,1.4,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.2,1.4,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.2,1.4,not fallen009.jpg,sitting,NOT FALL,TN,True,1,0.6743,No person exceeded threshold
+0.2,1.4,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.1,0.7,fall001.jpg,falling,FALL,TP,True,1,3.1081,At least one person exceeded threshold
+0.1,0.7,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.1,0.7,fall003.jpg,falling,FALL,TP,True,1,1.8308,At least one person exceeded threshold
+0.1,0.7,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.1,0.7,fall005.jpg,falling,FALL,TP,True,1,1.1795,At least one person exceeded threshold
+0.1,0.7,fall006.jpg,falling,FALL,TP,True,2,1.2000;2.1518,At least one person exceeded threshold
+0.1,0.7,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.1,0.7,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.1,0.7,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.1,0.7,fall010.jpg,falling,FALL,TP,True,3,0.8273;0.6993;0.7207,At least one person exceeded threshold
+0.1,0.7,not fallen001.jpg,sitting,FALL,FP,False,1,1.0261,At least one person exceeded threshold
+0.1,0.7,not fallen002.jpg,standing,NOT FALL,TN,True,3,0.3409;0.2841;0.5121,No person exceeded threshold
+0.1,0.7,not fallen003.jpg,sitting,FALL,FP,False,1,0.9381,At least one person exceeded threshold
+0.1,0.7,not fallen004.jpg,standing,NOT FALL,TN,True,2,0.2876;0.2987,No person exceeded threshold
+0.1,0.7,not fallen005.jpg,sitting,FALL,FP,False,1,0.8106,At least one person exceeded threshold
+0.1,0.7,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.1,0.7,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.1,0.7,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.1,0.7,not fallen009.jpg,sitting,NOT FALL,TN,True,2,0.6743;0.6149,No person exceeded threshold
+0.1,0.7,not fallen010.jpg,sitting,FALL,FP,False,1,0.8023,At least one person exceeded threshold
+0.1,0.8,fall001.jpg,falling,FALL,TP,True,1,3.1081,At least one person exceeded threshold
+0.1,0.8,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.1,0.8,fall003.jpg,falling,FALL,TP,True,1,1.8308,At least one person exceeded threshold
+0.1,0.8,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.1,0.8,fall005.jpg,falling,FALL,TP,True,1,1.1795,At least one person exceeded threshold
+0.1,0.8,fall006.jpg,falling,FALL,TP,True,2,1.2000;2.1518,At least one person exceeded threshold
+0.1,0.8,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.1,0.8,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.1,0.8,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.1,0.8,fall010.jpg,falling,FALL,TP,True,3,0.8273;0.6993;0.7207,At least one person exceeded threshold
+0.1,0.8,not fallen001.jpg,sitting,FALL,FP,False,1,1.0261,At least one person exceeded threshold
+0.1,0.8,not fallen002.jpg,standing,NOT FALL,TN,True,3,0.3409;0.2841;0.5121,No person exceeded threshold
+0.1,0.8,not fallen003.jpg,sitting,FALL,FP,False,1,0.9381,At least one person exceeded threshold
+0.1,0.8,not fallen004.jpg,standing,NOT FALL,TN,True,2,0.2876;0.2987,No person exceeded threshold
+0.1,0.8,not fallen005.jpg,sitting,FALL,FP,False,1,0.8106,At least one person exceeded threshold
+0.1,0.8,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.1,0.8,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.1,0.8,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.1,0.8,not fallen009.jpg,sitting,NOT FALL,TN,True,2,0.6743;0.6149,No person exceeded threshold
+0.1,0.8,not fallen010.jpg,sitting,FALL,FP,False,1,0.8023,At least one person exceeded threshold
+0.1,0.9,fall001.jpg,falling,FALL,TP,True,1,3.1081,At least one person exceeded threshold
+0.1,0.9,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.1,0.9,fall003.jpg,falling,FALL,TP,True,1,1.8308,At least one person exceeded threshold
+0.1,0.9,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.1,0.9,fall005.jpg,falling,FALL,TP,True,1,1.1795,At least one person exceeded threshold
+0.1,0.9,fall006.jpg,falling,FALL,TP,True,2,1.2000;2.1518,At least one person exceeded threshold
+0.1,0.9,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.1,0.9,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.1,0.9,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.1,0.9,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.1,0.9,not fallen001.jpg,sitting,FALL,FP,False,1,1.0261,At least one person exceeded threshold
+0.1,0.9,not fallen002.jpg,standing,NOT FALL,TN,True,3,0.3409;0.2841;0.5121,No person exceeded threshold
+0.1,0.9,not fallen003.jpg,sitting,FALL,FP,False,1,0.9381,At least one person exceeded threshold
+0.1,0.9,not fallen004.jpg,standing,NOT FALL,TN,True,2,0.2876;0.2987,No person exceeded threshold
+0.1,0.9,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.1,0.9,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.1,0.9,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.1,0.9,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.1,0.9,not fallen009.jpg,sitting,NOT FALL,TN,True,2,0.6743;0.6149,No person exceeded threshold
+0.1,0.9,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.1,1.0,fall001.jpg,falling,FALL,TP,True,1,3.1081,At least one person exceeded threshold
+0.1,1.0,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.1,1.0,fall003.jpg,falling,FALL,TP,True,1,1.8308,At least one person exceeded threshold
+0.1,1.0,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.1,1.0,fall005.jpg,falling,FALL,TP,True,1,1.1795,At least one person exceeded threshold
+0.1,1.0,fall006.jpg,falling,FALL,TP,True,2,1.2000;2.1518,At least one person exceeded threshold
+0.1,1.0,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.1,1.0,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.1,1.0,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.1,1.0,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.1,1.0,not fallen001.jpg,sitting,FALL,FP,False,1,1.0261,At least one person exceeded threshold
+0.1,1.0,not fallen002.jpg,standing,NOT FALL,TN,True,3,0.3409;0.2841;0.5121,No person exceeded threshold
+0.1,1.0,not fallen003.jpg,sitting,NOT FALL,TN,True,1,0.9381,No person exceeded threshold
+0.1,1.0,not fallen004.jpg,standing,NOT FALL,TN,True,2,0.2876;0.2987,No person exceeded threshold
+0.1,1.0,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.1,1.0,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.1,1.0,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.1,1.0,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.1,1.0,not fallen009.jpg,sitting,NOT FALL,TN,True,2,0.6743;0.6149,No person exceeded threshold
+0.1,1.0,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.1,1.1,fall001.jpg,falling,FALL,TP,True,1,3.1081,At least one person exceeded threshold
+0.1,1.1,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.1,1.1,fall003.jpg,falling,FALL,TP,True,1,1.8308,At least one person exceeded threshold
+0.1,1.1,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.1,1.1,fall005.jpg,falling,FALL,TP,True,1,1.1795,At least one person exceeded threshold
+0.1,1.1,fall006.jpg,falling,FALL,TP,True,2,1.2000;2.1518,At least one person exceeded threshold
+0.1,1.1,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.1,1.1,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.1,1.1,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.1,1.1,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.1,1.1,not fallen001.jpg,sitting,NOT FALL,TN,True,1,1.0261,No person exceeded threshold
+0.1,1.1,not fallen002.jpg,standing,NOT FALL,TN,True,3,0.3409;0.2841;0.5121,No person exceeded threshold
+0.1,1.1,not fallen003.jpg,sitting,NOT FALL,TN,True,1,0.9381,No person exceeded threshold
+0.1,1.1,not fallen004.jpg,standing,NOT FALL,TN,True,2,0.2876;0.2987,No person exceeded threshold
+0.1,1.1,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.1,1.1,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.1,1.1,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.1,1.1,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.1,1.1,not fallen009.jpg,sitting,NOT FALL,TN,True,2,0.6743;0.6149,No person exceeded threshold
+0.1,1.1,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.1,1.2,fall001.jpg,falling,FALL,TP,True,1,3.1081,At least one person exceeded threshold
+0.1,1.2,fall002.jpg,falling,FALL,TP,True,1,1.2600,At least one person exceeded threshold
+0.1,1.2,fall003.jpg,falling,FALL,TP,True,1,1.8308,At least one person exceeded threshold
+0.1,1.2,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.1,1.2,fall005.jpg,falling,NOT FALL,FN,False,1,1.1795,No person exceeded threshold
+0.1,1.2,fall006.jpg,falling,FALL,TP,True,2,1.2000;2.1518,At least one person exceeded threshold
+0.1,1.2,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.1,1.2,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.1,1.2,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.1,1.2,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.1,1.2,not fallen001.jpg,sitting,NOT FALL,TN,True,1,1.0261,No person exceeded threshold
+0.1,1.2,not fallen002.jpg,standing,NOT FALL,TN,True,3,0.3409;0.2841;0.5121,No person exceeded threshold
+0.1,1.2,not fallen003.jpg,sitting,NOT FALL,TN,True,1,0.9381,No person exceeded threshold
+0.1,1.2,not fallen004.jpg,standing,NOT FALL,TN,True,2,0.2876;0.2987,No person exceeded threshold
+0.1,1.2,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.1,1.2,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.1,1.2,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.1,1.2,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.1,1.2,not fallen009.jpg,sitting,NOT FALL,TN,True,2,0.6743;0.6149,No person exceeded threshold
+0.1,1.2,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.1,1.3,fall001.jpg,falling,FALL,TP,True,1,3.1081,At least one person exceeded threshold
+0.1,1.3,fall002.jpg,falling,NOT FALL,FN,False,1,1.2600,No person exceeded threshold
+0.1,1.3,fall003.jpg,falling,FALL,TP,True,1,1.8308,At least one person exceeded threshold
+0.1,1.3,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.1,1.3,fall005.jpg,falling,NOT FALL,FN,False,1,1.1795,No person exceeded threshold
+0.1,1.3,fall006.jpg,falling,FALL,TP,True,2,1.2000;2.1518,At least one person exceeded threshold
+0.1,1.3,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.1,1.3,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.1,1.3,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.1,1.3,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.1,1.3,not fallen001.jpg,sitting,NOT FALL,TN,True,1,1.0261,No person exceeded threshold
+0.1,1.3,not fallen002.jpg,standing,NOT FALL,TN,True,3,0.3409;0.2841;0.5121,No person exceeded threshold
+0.1,1.3,not fallen003.jpg,sitting,NOT FALL,TN,True,1,0.9381,No person exceeded threshold
+0.1,1.3,not fallen004.jpg,standing,NOT FALL,TN,True,2,0.2876;0.2987,No person exceeded threshold
+0.1,1.3,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.1,1.3,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.1,1.3,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.1,1.3,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.1,1.3,not fallen009.jpg,sitting,NOT FALL,TN,True,2,0.6743;0.6149,No person exceeded threshold
+0.1,1.3,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold
+0.1,1.4,fall001.jpg,falling,FALL,TP,True,1,3.1081,At least one person exceeded threshold
+0.1,1.4,fall002.jpg,falling,NOT FALL,FN,False,1,1.2600,No person exceeded threshold
+0.1,1.4,fall003.jpg,falling,FALL,TP,True,1,1.8308,At least one person exceeded threshold
+0.1,1.4,fall004.jpg,falling,FALL,TP,True,1,2.0000,At least one person exceeded threshold
+0.1,1.4,fall005.jpg,falling,NOT FALL,FN,False,1,1.1795,No person exceeded threshold
+0.1,1.4,fall006.jpg,falling,FALL,TP,True,2,1.2000;2.1518,At least one person exceeded threshold
+0.1,1.4,fall007.jpg,falling,FALL,TP,True,1,1.9394,At least one person exceeded threshold
+0.1,1.4,fall008.jpg,falling,FALL,TP,True,1,2.3917,At least one person exceeded threshold
+0.1,1.4,fall009.jpg,falling,FALL,TP,True,1,1.8525,At least one person exceeded threshold
+0.1,1.4,fall010.jpg,falling,NOT FALL,FN,False,3,0.8273;0.6993;0.7207,No person exceeded threshold
+0.1,1.4,not fallen001.jpg,sitting,NOT FALL,TN,True,1,1.0261,No person exceeded threshold
+0.1,1.4,not fallen002.jpg,standing,NOT FALL,TN,True,3,0.3409;0.2841;0.5121,No person exceeded threshold
+0.1,1.4,not fallen003.jpg,sitting,NOT FALL,TN,True,1,0.9381,No person exceeded threshold
+0.1,1.4,not fallen004.jpg,standing,NOT FALL,TN,True,2,0.2876;0.2987,No person exceeded threshold
+0.1,1.4,not fallen005.jpg,sitting,NOT FALL,TN,True,1,0.8106,No person exceeded threshold
+0.1,1.4,not fallen006.jpg,sitting,NOT FALL,TN,True,1,0.4115,No person exceeded threshold
+0.1,1.4,not fallen007.jpg,standing,NOT FALL,TN,True,1,0.6746,No person exceeded threshold
+0.1,1.4,not fallen008.jpg,sitting,NOT FALL,TN,True,1,0.6557,No person exceeded threshold
+0.1,1.4,not fallen009.jpg,sitting,NOT FALL,TN,True,2,0.6743;0.6149,No person exceeded threshold
+0.1,1.4,not fallen010.jpg,sitting,NOT FALL,TN,True,1,0.8023,No person exceeded threshold

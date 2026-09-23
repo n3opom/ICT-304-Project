@@ -1,17 +1,19 @@
 import csv
 import os
-import cv2
+import pytest
 
 from src.yolo import YOLODetector
-from src.yolo_fall_detection import (
-    calculate_bbox_ratio,
-    classify_fall
-)
+from src.yolo_fall_detection import calculate_bbox_ratio, classify_fall
 
 
 IMAGE_FOLDER = "data/test"
 GROUND_TRUTH_FILE = "ground_truth.csv"
-RESULTS_FOLDER = "results"
+
+RAW_RESULTS_FILE = "results/yolo_confidence_raw_results.csv"
+IMAGE_RESULTS_FILE = "results/yolo_image_results.csv"
+COMBINATION_RESULTS_FILE = "results/yolo_combination_results.csv"
+
+CONFIDENCE_LEVELS = [0.5, 0.4, 0.3, 0.2, 0.1]
 
 THRESHOLDS = [
     0.7,
@@ -26,8 +28,6 @@ THRESHOLDS = [
 
 
 def load_ground_truth():
-    """Load image ground-truth labels from CSV."""
-
     ground_truth = {}
 
     with open(
@@ -46,221 +46,406 @@ def load_ground_truth():
 
 
 def get_image_files():
-    """Get all test image filenames."""
+    image_files = []
 
-    image_files = sorted(
-        [
-            file_name
-            for file_name in os.listdir(IMAGE_FOLDER)
-            if file_name.lower().endswith(
-                (".jpg", ".jpeg", ".png")
-            )
-        ]
-    )
+    for filename in os.listdir(IMAGE_FOLDER):
+
+        if filename.lower().endswith(
+            (".jpg", ".jpeg", ".png")
+        ):
+            image_files.append(filename)
+
+    image_files.sort()
 
     return image_files
 
 
-def get_highest_confidence_person(persons):
-    """
-    Select the person detection with the
-    highest confidence.
-    """
+def calculate_metrics(
+    true_positive,
+    true_negative,
+    false_positive,
+    false_negative
+):
 
-    if not persons:
-        return None
+    correct = true_positive + true_negative
+    incorrect = false_positive + false_negative
 
-    return max(
-        persons,
-        key=lambda person: person["confidence"]
+    total = correct + incorrect
+
+    if total > 0:
+        accuracy = correct / total
+    else:
+        accuracy = 0.0
+
+    if true_positive + false_positive > 0:
+        precision = (
+            true_positive /
+            (true_positive + false_positive)
+        )
+    else:
+        precision = 0.0
+
+    if true_positive + false_negative > 0:
+        recall = (
+            true_positive /
+            (true_positive + false_negative)
+        )
+    else:
+        recall = 0.0
+
+    if precision + recall > 0:
+        f1_score = (
+            2 * precision * recall /
+            (precision + recall)
+        )
+    else:
+        f1_score = 0.0
+
+    return (
+        correct,
+        incorrect,
+        accuracy,
+        precision,
+        recall,
+        f1_score
     )
 
 
-def test_yolo_on_test_images():
+def test_yolo_confidence_and_thresholds():
 
-    detector = YOLODetector()
+    os.makedirs("results", exist_ok=True)
 
     ground_truth = load_ground_truth()
     image_files = get_image_files()
 
-    assert len(image_files) == 20, (
-        f"Expected 20 test images, found {len(image_files)}."
-    )
-
-    assert len(ground_truth) == 20, (
-        f"Expected 20 ground-truth labels, "
-        f"found {len(ground_truth)}."
-    )
-
-    os.makedirs(
-        RESULTS_FOLDER,
-        exist_ok=True
-    )
-
-    raw_results = []
-
-    for file_name in image_files:
-
-        image_path = os.path.join(
-            IMAGE_FOLDER,
-            file_name
-        )
-
-        image = cv2.imread(image_path)
-
-        assert image is not None, (
-            f"Could not load {file_name}."
-        )
-
-        persons = detector.detect_persons(image)
-
-        best_person = get_highest_confidence_person(
-            persons
-        )
-
-        if best_person is None:
-
-            raw_results.append({
-                "image": file_name,
-                "ground_truth": ground_truth[file_name],
-                "persons_detected": 0,
-                "confidence": "",
-                "bbox": "",
-                "ratio": ""
-            })
-
-        else:
-
-            bbox = best_person["bbox"]
-
-            ratio = calculate_bbox_ratio(bbox)
-
-            raw_results.append({
-                "image": file_name,
-                "ground_truth": ground_truth[file_name],
-                "persons_detected": len(persons),
-                "confidence": (
-                    f"{best_person['confidence']:.3f}"
-                ),
-                "bbox": str(bbox),
-                "ratio": f"{ratio:.3f}"
-            })
-
-    raw_file = os.path.join(
-        RESULTS_FOLDER,
-        "yolo_raw_results.csv"
-    )
-
-    with open(
-        raw_file,
-        "w",
-        newline="",
-        encoding="utf-8"
-    ) as file:
-
-        fieldnames = [
-            "image",
-            "ground_truth",
-            "persons_detected",
-            "confidence",
-            "bbox",
-            "ratio"
-        ]
-
-        writer = csv.DictWriter(
-            file,
-            fieldnames=fieldnames
-        )
-
-        writer.writeheader()
-        writer.writerows(raw_results)
+    assert len(image_files) == 20
+    assert len(ground_truth) == 20
 
     print()
-    print("Raw YOLO results saved to:")
-    print(raw_file)
+    print("=" * 80)
+    print("YOLO CONFIDENCE + FALL THRESHOLD EXPERIMENT")
+    print("=" * 80)
 
-    evaluate_thresholds(raw_results)
+    all_raw_results = []
 
+    # =========================================================
+    # STEP 1
+    # Run YOLO at each confidence level
+    # =========================================================
 
-def evaluate_thresholds(raw_results):
+    for confidence in CONFIDENCE_LEVELS:
 
-    threshold_results = []
+        print()
+        print(
+            f"Running YOLO with confidence = "
+            f"{confidence}"
+        )
 
-    for threshold in THRESHOLDS:
+        detector = YOLODetector(
+            confidence=confidence
+        )
 
-        correct = 0
-        incorrect = 0
+        for image_name in image_files:
 
-        true_positive = 0
-        true_negative = 0
-        false_positive = 0
-        false_negative = 0
-
-        for result in raw_results:
-
-            actual_fall = (
-                result["ground_truth"] == "falling"
+            image_path = os.path.join(
+                IMAGE_FOLDER,
+                image_name
             )
 
-            if result["ratio"] == "":
+            persons = detector.detect_persons(
+                image_path
+            )
 
-                predicted_fall = False
+            person_results = []
 
-            else:
+            for person in persons:
 
-                ratio = float(result["ratio"])
-
-                predicted_fall = classify_fall(
-                    ratio,
-                    threshold
+                ratio = calculate_bbox_ratio(
+                    person["bbox"]
                 )
 
-            if predicted_fall == actual_fall:
+                person_results.append({
+                    "confidence": person["confidence"],
+                    "ratio": ratio
+                })
 
-                correct += 1
+            all_raw_results.append({
+                "confidence_threshold": confidence,
+                "image": image_name,
+                "condition": ground_truth[image_name],
+                "persons": person_results
+            })
 
-            else:
-
-                incorrect += 1
-
-            if actual_fall and predicted_fall:
-                true_positive += 1
-
-            elif not actual_fall and not predicted_fall:
-                true_negative += 1
-
-            elif not actual_fall and predicted_fall:
-                false_positive += 1
-
-            elif actual_fall and not predicted_fall:
-                false_negative += 1
-
-        accuracy = correct / len(raw_results)
-
-        threshold_results.append({
-            "threshold": threshold,
-            "correct": correct,
-            "incorrect": incorrect,
-            "true_positive": true_positive,
-            "true_negative": true_negative,
-            "false_positive": false_positive,
-            "false_negative": false_negative,
-            "accuracy": f"{accuracy:.3f}"
-        })
-
-    results_file = os.path.join(
-        RESULTS_FOLDER,
-        "yolo_threshold_results.csv"
-    )
+    # =========================================================
+    # STEP 2
+    # Save raw YOLO detection results
+    # =========================================================
 
     with open(
-        results_file,
+        RAW_RESULTS_FILE,
         "w",
         newline="",
         encoding="utf-8"
     ) as file:
 
-        fieldnames = [
+        writer = csv.writer(file)
+
+        writer.writerow([
+            "confidence_threshold",
+            "image",
+            "condition",
+            "person_count",
+            "person_confidences",
+            "bbox_ratios"
+        ])
+
+        for result in all_raw_results:
+
+            confidences = ";".join(
+                f"{person['confidence']:.4f}"
+                for person in result["persons"]
+            )
+
+            ratios = ";".join(
+                f"{person['ratio']:.4f}"
+                for person in result["persons"]
+            )
+
+            writer.writerow([
+                result["confidence_threshold"],
+                result["image"],
+                result["condition"],
+                len(result["persons"]),
+                confidences,
+                ratios
+            ])
+
+    print()
+    print(
+        f"Raw detection results saved to: "
+        f"{RAW_RESULTS_FILE}"
+    )
+
+    # =========================================================
+    # STEP 3
+    # Test every confidence × fall threshold combination
+    # =========================================================
+
+    combination_results = []
+    image_results = []
+
+    for confidence in CONFIDENCE_LEVELS:
+
+        confidence_results = [
+            result
+            for result in all_raw_results
+            if result["confidence_threshold"] == confidence
+        ]
+
+        for threshold in THRESHOLDS:
+
+            true_positive = 0
+            true_negative = 0
+            false_positive = 0
+            false_negative = 0
+
+            for result in confidence_results:
+
+                actual_fall = (
+                    result["condition"] == "falling"
+                )
+
+                persons = result["persons"]
+
+                # -------------------------------------------------
+                # No person detected
+                # -------------------------------------------------
+
+                if len(persons) == 0:
+
+                    predicted_fall = False
+                    prediction_reason = "No person detected"
+
+                else:
+
+                    predicted_fall = False
+                    prediction_reason = "No person exceeded threshold"
+
+                    # -------------------------------------------------
+                    # ANY detected person can trigger FALL
+                    # -------------------------------------------------
+
+                    for person in persons:
+
+                        if classify_fall(
+                            person["ratio"],
+                            threshold
+                        ):
+
+                            predicted_fall = True
+
+                            prediction_reason = (
+                                "At least one person "
+                                "exceeded threshold"
+                            )
+
+                            break
+
+                # -------------------------------------------------
+                # Determine classification
+                # -------------------------------------------------
+
+                if actual_fall and predicted_fall:
+
+                    true_positive += 1
+                    classification = "TP"
+
+                elif not actual_fall and not predicted_fall:
+
+                    true_negative += 1
+                    classification = "TN"
+
+                elif not actual_fall and predicted_fall:
+
+                    false_positive += 1
+                    classification = "FP"
+
+                else:
+
+                    false_negative += 1
+                    classification = "FN"
+
+                # -------------------------------------------------
+                # Get bbox ratios for CSV
+                # -------------------------------------------------
+
+                ratios = ";".join(
+                    f"{person['ratio']:.4f}"
+                    for person in persons
+                )
+
+                # -------------------------------------------------
+                # Save individual image result
+                # -------------------------------------------------
+
+                image_results.append({
+                    "confidence": confidence,
+                    "threshold": threshold,
+                    "image": result["image"],
+                    "actual": result["condition"],
+                    "predicted": (
+                        "FALL"
+                        if predicted_fall
+                        else "NOT FALL"
+                    ),
+                    "classification": classification,
+                    "correct": (
+                        "True"
+                        if (
+                            (actual_fall and predicted_fall)
+                            or
+                            (not actual_fall and not predicted_fall)
+                        )
+                        else "False"
+                    ),
+                    "person_count": len(persons),
+                    "bbox_ratios": ratios,
+                    "reason": prediction_reason
+                })
+
+            (
+                correct,
+                incorrect,
+                accuracy,
+                precision,
+                recall,
+                f1_score
+            ) = calculate_metrics(
+                true_positive,
+                true_negative,
+                false_positive,
+                false_negative
+            )
+
+            combination_results.append({
+                "confidence": confidence,
+                "threshold": threshold,
+                "correct": correct,
+                "incorrect": incorrect,
+                "true_positive": true_positive,
+                "true_negative": true_negative,
+                "false_positive": false_positive,
+                "false_negative": false_negative,
+                "accuracy": accuracy,
+                "precision": precision,
+                "recall": recall,
+                "f1_score": f1_score
+            })
+
+    # =========================================================
+    # STEP 4
+    # Save IMAGE-LEVEL results
+    # =========================================================
+
+    with open(
+        IMAGE_RESULTS_FILE,
+        "w",
+        newline="",
+        encoding="utf-8"
+    ) as file:
+
+        writer = csv.writer(file)
+
+        writer.writerow([
+            "confidence",
+            "threshold",
+            "image",
+            "actual",
+            "predicted",
+            "classification",
+            "correct",
+            "person_count",
+            "bbox_ratios",
+            "reason"
+        ])
+
+        for result in image_results:
+
+            writer.writerow([
+                result["confidence"],
+                result["threshold"],
+                result["image"],
+                result["actual"],
+                result["predicted"],
+                result["classification"],
+                result["correct"],
+                result["person_count"],
+                result["bbox_ratios"],
+                result["reason"]
+            ])
+
+    print()
+    print(
+        f"Image-level results saved to: "
+        f"{IMAGE_RESULTS_FILE}"
+    )
+
+    # =========================================================
+    # STEP 5
+    # Save aggregate results
+    # =========================================================
+
+    with open(
+        COMBINATION_RESULTS_FILE,
+        "w",
+        newline="",
+        encoding="utf-8"
+    ) as file:
+
+        writer = csv.writer(file)
+
+        writer.writerow([
+            "confidence",
             "threshold",
             "correct",
             "incorrect",
@@ -268,31 +453,95 @@ def evaluate_thresholds(raw_results):
             "true_negative",
             "false_positive",
             "false_negative",
-            "accuracy"
-        ]
+            "accuracy",
+            "precision",
+            "recall",
+            "f1_score"
+        ])
 
-        writer = csv.DictWriter(
-            file,
-            fieldnames=fieldnames
-        )
+        for result in combination_results:
 
-        writer.writeheader()
-        writer.writerows(threshold_results)
+            writer.writerow([
+                result["confidence"],
+                result["threshold"],
+                result["correct"],
+                result["incorrect"],
+                result["true_positive"],
+                result["true_negative"],
+                result["false_positive"],
+                result["false_negative"],
+                f"{result['accuracy']:.4f}",
+                f"{result['precision']:.4f}",
+                f"{result['recall']:.4f}",
+                f"{result['f1_score']:.4f}"
+            ])
+
+    print(
+        f"Combination results saved to: "
+        f"{COMBINATION_RESULTS_FILE}"
+    )
+
+    # =========================================================
+    # STEP 6
+    # Print aggregate results
+    # =========================================================
 
     print()
-    print("Threshold evaluation saved to:")
-    print(results_file)
+    print("=" * 100)
+    print("ALL CONFIDENCE × FALL THRESHOLD RESULTS")
+    print("=" * 100)
 
-    print()
-    print("Threshold results:")
-
-    for result in threshold_results:
+    for result in combination_results:
 
         print(
+            f"Confidence {result['confidence']:.1f} | "
             f"Threshold {result['threshold']:.1f} | "
-            f"Accuracy {result['accuracy']} | "
+            f"Accuracy {result['accuracy']:.3f} | "
+            f"Precision {result['precision']:.3f} | "
+            f"Recall {result['recall']:.3f} | "
+            f"F1 {result['f1_score']:.3f} | "
             f"TP {result['true_positive']} | "
             f"TN {result['true_negative']} | "
             f"FP {result['false_positive']} | "
             f"FN {result['false_negative']}"
         )
+
+    # =========================================================
+    # STEP 7
+    # Print misclassified images
+    # =========================================================
+
+    print()
+    print("=" * 100)
+    print("MISCLASSIFIED IMAGES")
+    print("=" * 100)
+
+    misclassified_count = 0
+
+    for result in image_results:
+
+        if result["correct"] == "False":
+
+            misclassified_count += 1
+
+            print(
+                f"Confidence {result['confidence']:.1f} | "
+                f"Threshold {result['threshold']:.1f} | "
+                f"Image {result['image']} | "
+                f"Actual {result['actual']} | "
+                f"Predicted {result['predicted']} | "
+                f"{result['classification']} | "
+                f"Ratios [{result['bbox_ratios']}] | "
+                f"{result['reason']}"
+            )
+
+    print()
+    print(
+        f"Total misclassified image/parameter cases: "
+        f"{misclassified_count}"
+    )
+
+    # There should be 40 combinations × 20 images
+    assert len(image_results) == 800
+
+    assert len(combination_results) == 40
