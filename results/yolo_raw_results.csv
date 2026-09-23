@@ -1,0 +1,21 @@
+image,ground_truth,persons_detected,confidence,bbox,ratio
+fall001.jpg,falling,0,,,
+fall002.jpg,falling,1,0.540,"(113, 65, 176, 115)",1.260
+fall003.jpg,falling,0,,,
+fall004.jpg,falling,1,0.826,"(21, 5, 275, 132)",2.000
+fall005.jpg,falling,0,,,
+fall006.jpg,falling,1,0.705,"(63, 1, 273, 176)",1.200
+fall007.jpg,falling,1,0.712,"(46, 58, 238, 157)",1.939
+fall008.jpg,falling,1,0.841,"(8, 32, 295, 152)",2.392
+fall009.jpg,falling,0,,,
+fall010.jpg,falling,3,0.912,"(5, 36, 120, 175)",0.827
+not fallen001.jpg,sitting,1,0.916,"(134, 23, 527, 406)",1.026
+not fallen002.jpg,standing,2,0.868,"(1249, 621, 1490, 1328)",0.341
+not fallen003.jpg,sitting,1,0.942,"(340, 270, 795, 755)",0.938
+not fallen004.jpg,standing,1,0.908,"(203, 512, 515, 1597)",0.288
+not fallen005.jpg,sitting,1,0.907,"(22, 45, 313, 404)",0.811
+not fallen006.jpg,sitting,1,0.820,"(31, 6, 131, 249)",0.412
+not fallen007.jpg,standing,1,0.916,"(120, 25, 205, 151)",0.675
+not fallen008.jpg,sitting,1,0.910,"(94, 51, 174, 173)",0.656
+not fallen009.jpg,sitting,1,0.674,"(75, 6, 193, 181)",0.674
+not fallen010.jpg,sitting,1,0.864,"(51, 64, 120, 150)",0.802
