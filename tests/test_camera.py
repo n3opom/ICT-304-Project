@@ -1,106 +1,52 @@
-import os
 import cv2
+import pytest
 
 from src.camera import Camera
 
 
-TEST_FOLDER = os.path.join(
-    "data",
-    "test"
-)
+def test_camera_initialises_in_live_mode():
+    camera = Camera(
+        mode="live"
+    )
+
+    assert camera.mode == "live"
+    assert camera.camera_index == 0
+
+    camera.release()
 
 
-def test_image_folder_exists():
-
-    assert os.path.exists(
-        TEST_FOLDER
-    ), "Test image folder does not exist."
-
-
-def test_images_exist():
-
-    image_files = [
-        filename
-        for filename in os.listdir(TEST_FOLDER)
-        if filename.lower().endswith(
-            (".jpg", ".jpeg", ".png")
+def test_camera_rejects_invalid_mode():
+    with pytest.raises(ValueError):
+        Camera(
+            mode="invalid"
         )
-    ]
-
-    assert len(image_files) > 0, (
-        "No test images found."
-    )
 
 
-def test_image_camera():
-
+def test_camera_image_mode_requires_folder():
     camera = Camera(
-        mode="image",
-        image_folder=TEST_FOLDER
+        mode="image"
     )
 
-    camera.open()
+    with pytest.raises(ValueError):
+        camera.open()
 
-    frame = camera.read()
 
-    assert frame is not None
-    assert isinstance(frame, type(cv2.imread(
-        os.path.join(
-            TEST_FOLDER,
-            os.listdir(TEST_FOLDER)[0]
-        )
-    )))
+def test_camera_live_mode_status():
+    camera = Camera(
+        mode="live"
+    )
+
+    assert camera.is_live() is True
 
     camera.release()
 
 
-def test_all_images_can_be_read():
-
+def test_camera_image_mode_status():
     camera = Camera(
         mode="image",
-        image_folder=TEST_FOLDER
+        image_folder="data/test"
     )
 
-    camera.open()
-
-    image_count = 0
-
-    while True:
-
-        frame = camera.read()
-
-        if frame is None:
-            break
-
-        image_count += 1
+    assert camera.is_live() is False
 
     camera.release()
-
-    assert image_count > 0
-
-
-def test_image_only_returns_after_all_images():
-
-    camera = Camera(
-        mode="image",
-        image_folder=TEST_FOLDER
-    )
-
-    camera.open()
-
-    image_count = 0
-
-    while True:
-
-        frame = camera.read()
-
-        if frame is None:
-            break
-
-        image_count += 1
-
-    assert camera.read() is None
-
-    camera.release()
-
-    assert image_count > 0

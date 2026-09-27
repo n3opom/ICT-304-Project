@@ -27,6 +27,7 @@ class MediaPipePoseDetector:
 
             model_path = (
                 project_root
+                / "models"
                 / "pose_landmarker_full.task"
             )
 

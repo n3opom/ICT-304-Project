@@ -13,13 +13,13 @@ class Camera:
     """
 
     def __init__(self, mode="live", image_folder=None, camera_index=0):
+        if mode.lower() not in ("live", "image"):
+            raise ValueError("Mode must be 'live' or 'image'")
+
         self.mode = mode.lower()
         self.image_folder = image_folder
         self.camera_index = camera_index
-
         self.cap = None
-        self.image_files = []
-        self.image_index = 0
 
     def open(self):
         """
