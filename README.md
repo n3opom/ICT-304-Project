@@ -58,7 +58,6 @@ src/camera.py
 The `Camera` class supports:
 
 - `live` mode for webcam input
-- `image` mode for pre-taken images
 
 The integration prototype uses:
 
