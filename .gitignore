@@ -1,1 +1,7 @@
-venv/ __pycache__/ *.pyc *.mp4
+venv/
+__pycache__/
+*.pyc
+*.mp4
+
+# Runtime output
+results/*.csv
