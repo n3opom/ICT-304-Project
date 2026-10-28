@@ -1,9 +1,14 @@
-
 import cv2
+
+from time import monotonic
 
 from src.camera import Camera
 from src.mediapipe import MediaPipePoseDetector
-from src.mediapipe_fall_detection import MediaPipeFallDetector
+from src.temporal_fall_detector import (
+    TemporalFallDetector,
+    FallState,
+    Posture,
+)
 from src.landmark_logger import LandmarkLogger
 
 
@@ -17,8 +22,12 @@ FRAME_WIDTH = 1280
 FRAME_HEIGHT = 720
 FRAME_FPS = 30
 
-TORSO_ANGLE_THRESHOLD = 60.0
+POSSIBLE_FALL_ANGLE = 60.0
 MIN_LANDMARK_VISIBILITY = 0.5
+
+RAPID_TRANSITION_SECONDS = 1.0
+LOW_POSTURE_SECONDS = 1.0
+RAPID_MOVEMENT_THRESHOLD = 0.08
 
 
 def draw_landmarks(frame, pose_landmarks):
@@ -128,10 +137,13 @@ def main():
         # Create MediaPipe pose detector
         detector = MediaPipePoseDetector()
 
-        # Create fall detector
-        fall_detector = MediaPipeFallDetector(
-            torso_angle_threshold=TORSO_ANGLE_THRESHOLD,
-            min_landmark_visibility=MIN_LANDMARK_VISIBILITY
+        # Create temporal fall detector
+        fall_detector = TemporalFallDetector(
+            min_landmark_visibility=MIN_LANDMARK_VISIBILITY,
+            rapid_transition_seconds=RAPID_TRANSITION_SECONDS,
+            low_posture_seconds=LOW_POSTURE_SECONDS,
+            possible_fall_angle=POSSIBLE_FALL_ANGLE,
+            rapid_movement_threshold=RAPID_MOVEMENT_THRESHOLD,
         )
 
         # Create landmark logger
@@ -150,8 +162,8 @@ def main():
         )
         print(f"Requested FPS: {FRAME_FPS}")
         print(
-            f"Torso angle threshold: "
-            f"{TORSO_ANGLE_THRESHOLD} degrees"
+            f"Possible fall angle threshold: "
+            f"{POSSIBLE_FALL_ANGLE} degrees"
         )
         print("Press Q to quit.")
         print()
@@ -175,47 +187,45 @@ def main():
 
             frame_number += 1
 
-            if result.pose_landmarks:
 
-                # Use the first detected person
+            if result.pose_landmarks:
+                # Use the first detected person.
                 pose_landmarks = result.pose_landmarks[0]
 
-                # Classify the pose
-                classification = fall_detector.classify(
-                    pose_landmarks
+                # Update the temporal detector using this frame's timestamp.
+                fall_state, posture = fall_detector.update(
+                    pose_landmarks,
+                    timestamp=monotonic(),
                 )
 
-                # Calculate torso angle
-                torso_angle = (
-                    fall_detector.calculate_torso_angle(
-                        pose_landmarks
-                    )
-                )
+                # Save landmarks to CSV.
+                logger.log(frame_number, pose_landmarks)
 
-                # Save landmarks to CSV
-                logger.log(
-                    frame_number,
-                    pose_landmarks
-                )
+                # Draw pose landmarks.
+                draw_landmarks(frame, pose_landmarks)
 
-                # Draw pose landmarks
-                draw_landmarks(
+                # Display posture.
+                posture_text = f"Posture: {posture.value}"
+                cv2.putText(
                     frame,
-                    pose_landmarks
+                    posture_text,
+                    (20, 80),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.7,
+                    (255, 255, 255),
+                    2,
                 )
 
-                # Select status display
-                if classification == "FALL":
-                    display_text = "POSSIBLE FALL"
+                # Display temporal fall state.
+                if fall_state == FallState.FALL:
+                    display_text = "FALL"
                     display_color = (0, 0, 255)
-
-                elif classification == "NO_FALL":
-                    display_text = "NO FALL DETECTED"
-                    display_color = (0, 255, 0)
-
-                else:
-                    display_text = "POSE UNCERTAIN"
+                elif fall_state == FallState.POSSIBLE_FALL:
+                    display_text = "POSSIBLE FALL"
                     display_color = (0, 165, 255)
+                else:
+                    display_text = "NO FALL"
+                    display_color = (0, 255, 0)
 
                 cv2.putText(
                     frame,
@@ -224,30 +234,36 @@ def main():
                     cv2.FONT_HERSHEY_SIMPLEX,
                     1,
                     display_color,
-                    2
+                    2,
                 )
 
-                # Display torso angle
-                if torso_angle is not None:
-                    angle_text = (
-                        f"Torso angle: {torso_angle:.1f} deg"
-                    )
-                else:
-                    angle_text = (
-                        "Torso angle: unavailable"
-                    )
+                # Display torso angle for debugging.
+                features = fall_detector._features(pose_landmarks)
+                torso_angle = features[0] if features is not None else None
+
+                angle_text = (
+                    f"Torso angle: {torso_angle:.1f} deg"
+                    if torso_angle is not None
+                    else "Torso angle: unavailable"
+                )
 
                 cv2.putText(
                     frame,
                     angle_text,
-                    (20, 80),
+                    (20, 120),
                     cv2.FONT_HERSHEY_SIMPLEX,
                     0.7,
                     (255, 255, 255),
-                    2
+                    2,
                 )
 
             else:
+                # Let the temporal detector know no pose was detected.
+                fall_state, posture = fall_detector.update(
+                    None,
+                    timestamp=monotonic(),
+                )
+
                 cv2.putText(
                     frame,
                     "NO PERSON DETECTED",
@@ -255,7 +271,7 @@ def main():
                     cv2.FONT_HERSHEY_SIMPLEX,
                     1,
                     (0, 0, 255),
-                    2
+                    2,
                 )
 
             # Display live video
