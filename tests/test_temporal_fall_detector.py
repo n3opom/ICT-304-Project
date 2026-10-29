@@ -362,3 +362,38 @@ def test_returning_upright_clears_possible_fall():
 
     assert posture == Posture.STANDING
     assert state == FallState.NO_FALL
+
+
+def test_already_lying_does_not_auto_confirm_fall_from_duration_alone():
+    detector = TemporalFallDetector(unexplained_lying_seconds=1.0)
+    lying = make_landmarks(0, posture="lying")
+    detector.update(lying, timestamp=0.0)
+    detector.update(lying, timestamp=0.2)
+    detector.update(lying, timestamp=0.4)
+    state, posture = detector.update(lying, timestamp=1.2)
+    assert posture == Posture.LYING
+    assert state == FallState.POSSIBLE_FALL
+    detector.update(lying, timestamp=3.5)
+    assert detector.last_state == FallState.POSSIBLE_FALL
+
+
+def test_coordinate_median_filter_rejects_single_frame_spike():
+    detector = TemporalFallDetector()
+    stable = make_landmarks(90, posture="standing")
+    detector.update(stable, timestamp=0.00)
+    detector.update(stable, timestamp=0.03)
+    spike = make_landmarks(90, posture="standing")
+    spike[11].x = 0.99
+    detector.update(spike, timestamp=0.06)
+    assert detector.filtered_landmarks[11].x == pytest.approx(stable[11].x)
+
+
+def test_short_uncertainty_does_not_immediately_clear_possible_fall():
+    detector = TemporalFallDetector()
+    detector.update(make_landmarks(90), timestamp=0.0)
+    state, _ = detector.update(make_landmarks(0, posture="lying"), timestamp=0.2)
+    assert state == FallState.POSSIBLE_FALL
+    invalid = make_landmarks(0, posture="lying")
+    invalid[11].visibility = 0.1
+    state, _ = detector.update(invalid, timestamp=0.3)
+    assert state == FallState.POSSIBLE_FALL

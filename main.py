@@ -198,11 +198,24 @@ def main():
                     timestamp=monotonic(),
                 )
 
-                # Save landmarks to CSV.
-                logger.log(frame_number, pose_landmarks)
+                # Use the same stabilised landmarks for display and diagnosis.
+                filtered_landmarks = fall_detector.filtered_landmarks or pose_landmarks
+                features = fall_detector._features(filtered_landmarks)
+                torso_angle = features[0] if features is not None else None
 
-                # Draw pose landmarks.
-                draw_landmarks(frame, pose_landmarks)
+                # Log raw and filtered coordinates plus the current decision.
+                logger.log(
+                    frame_number,
+                    pose_landmarks,
+                    filtered_landmarks=filtered_landmarks,
+                    posture=posture,
+                    fall_state=fall_state,
+                    torso_angle=torso_angle,
+                )
+
+                # Draw filtered landmarks so the skeleton matches the geometry
+                # used by the posture and fall classifiers.
+                draw_landmarks(frame, filtered_landmarks)
 
                 # Display posture.
                 posture_text = f"Posture: {posture.value}"
@@ -238,9 +251,6 @@ def main():
                 )
 
                 # Display torso angle for debugging.
-                features = fall_detector._features(pose_landmarks)
-                torso_angle = features[0] if features is not None else None
-
                 angle_text = (
                     f"Torso angle: {torso_angle:.1f} deg"
                     if torso_angle is not None
