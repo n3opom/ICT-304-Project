@@ -182,69 +182,127 @@ class TemporalFallDetector:
         center_x = (shoulder[0] + hip[0]) / 2.0
         return angle, center_y, center_x
 
-    def _estimate_posture(self, landmarks, angle):
-        """Classify from reliable torso and available whole-body geometry.
 
-        Leg occlusion must not automatically suppress a horizontal torso.
-        A near-horizontal body may also be inferred from head-to-ankle or
-        shoulder-to-knee alignment when the torso tracker is unreliable.
+    def _estimate_posture(self, landmarks, angle):
         """
+        Classify posture using available body geometry.
+
+        A horizontal torso or horizontal head-to-body alignment
+        can indicate lying even when leg landmarks are unreliable.
+        """
+
         if landmarks is None or angle is None:
             return Posture.UNCERTAIN
 
-        def midpoint(indices, minimum=1):
-            pts = [landmarks[i] for i in indices if i < len(landmarks)
-                   and self._valid(landmarks[i])]
-            if len(pts) < minimum:
-                return None
-            return (sum(p.x for p in pts) / len(pts),
-                    sum(p.y for p in pts) / len(pts))
+        def get_point(indices):
+            points = []
 
-        shoulder = midpoint((11, 12))
-        hip = midpoint((23, 24))
-        knee = midpoint((25, 26))
-        ankle = midpoint((27, 28))
-        nose = midpoint((0,))
+            for index in indices:
+                if index >= len(landmarks):
+                    continue
+
+                point = landmarks[index]
+
+                if self._valid(point):
+                    points.append(point)
+
+            if not points:
+                return None
+
+            x = sum(p.x for p in points) / len(points)
+            y = sum(p.y for p in points) / len(points)
+
+            return (x, y)
+
+        nose = get_point((0,))
+        shoulder = get_point((11, 12))
+        hip = get_point((23, 24))
+        knee = get_point((25, 26))
+        ankle = get_point((27, 28))
+
         if shoulder is None or hip is None:
             return Posture.UNCERTAIN
 
-        # Horizontal torso is strong evidence regardless of leg visibility.
-        if angle <= 40.0:
+        # 1. Direct evidence from torso orientation.
+        if angle <= 35.0:
             return Posture.LYING
 
-        # Evaluate the visible body axis, not just the torso. A horizontal
-        # head-to-feet arrangement is a lying cue even if the torso is skewed.
-        points = [p for p in (nose, shoulder, hip, knee, ankle) if p is not None]
-        if len(points) >= 3:
-            span_x = max(p[0] for p in points) - min(p[0] for p in points)
-            span_y = max(p[1] for p in points) - min(p[1] for p in points)
-            if span_x >= 0.28 and span_x >= span_y * 1.25:
+        # 2. Evaluate the body's projected direction.
+        # Use anatomical landmarks in head-to-feet order.
+        body_points = [
+            point for point in
+            (nose, shoulder, hip, knee, ankle)
+            if point is not None
+        ]
+
+        if len(body_points) >= 3:
+            horizontal_span = (
+                max(p[0] for p in body_points)
+                - min(p[0] for p in body_points)
+            )
+
+            vertical_span = (
+                max(p[1] for p in body_points)
+                - min(p[1] for p in body_points)
+            )
+
+            # Strong horizontal whole-body evidence.
+            if (
+                horizontal_span >= 0.25
+                and horizontal_span >= vertical_span * 1.5
+            ):
                 return Posture.LYING
 
-        # Without legs, a vertical torso cannot distinguish standing, sitting
-        # or crouching. Avoid inventing a specific posture.
+        # 3. Horizontal shoulder-to-hip alignment,
+        # with a less restrictive threshold.
+        torso_dx = abs(shoulder[0] - hip[0])
+        torso_dy = abs(shoulder[1] - hip[1])
+
+        if (
+            torso_dx >= 0.10
+            and torso_dx >= torso_dy * 1.2
+        ):
+            return Posture.LYING
+
+        # 4. Without reliable legs, don't guess
+        # whether the person is sitting or crouching.
         if knee is None or ankle is None:
             return Posture.UNCERTAIN
 
         hip_knee_y = abs(knee[1] - hip[1])
         knee_ankle_y = abs(ankle[1] - knee[1])
-        leg_vertical = ankle[1] - hip[1]
-        leg_horizontal = abs(ankle[0] - hip[0])
 
-        # When the projected legs are mostly horizontal and sufficiently long,
-        # prefer lying over a seated/crouched label.
-        if leg_horizontal >= 0.22 and leg_horizontal >= abs(leg_vertical) * 1.25:
+        leg_horizontal = abs(ankle[0] - hip[0])
+        leg_vertical = abs(ankle[1] - hip[1])
+
+        # 5. Detect horizontal leg extension.
+        if (
+            leg_horizontal >= 0.22
+            and leg_horizontal >= leg_vertical * 1.5
+            and torso_dx >= 0.07
+        ):
             return Posture.LYING
 
+        # 6. Classify upright postures.
         if angle < 65.0:
-            return Posture.CROUCHING if hip_knee_y < 0.12 else Posture.UNCERTAIN
-        if knee_ankle_y < 0.015 or hip_knee_y < 0.015:
             return Posture.UNCERTAIN
-        if hip_knee_y < knee_ankle_y * 0.55:
+
+        if (
+            hip_knee_y < 0.015
+            or knee_ankle_y < 0.015
+        ):
+            return Posture.UNCERTAIN
+
+        leg_ratio = hip_knee_y / knee_ankle_y
+
+        if leg_ratio < 0.55:
             return Posture.SITTING
-        if hip_knee_y < knee_ankle_y * 0.80:
+
+        if leg_ratio < 0.80:
             return Posture.CROUCHING
+
         return Posture.STANDING
+
 
     def _handle_tracking_loss(self, now, posture):
         if self.tracking_lost_start is None:
@@ -284,8 +342,12 @@ class TemporalFallDetector:
 
         # If frames arrive with a large gap, don't let old coordinates dominate
         # the current pose; rebuild the filter from the current frame.
-        if self.last_filter_timestamp is not None and now - self.last_filter_timestamp > 0.25:
+        if (
+            self.last_filter_timestamp is not None
+            and now - self.last_filter_timestamp > 0.25
+        ):
             self.raw_coordinate_history.clear()
+            self.last_observation = None
         filtered = self._smooth_landmarks(landmarks)
         self.last_filter_timestamp = now
         self.filtered_landmarks = filtered
