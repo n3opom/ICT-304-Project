@@ -1,20 +1,19 @@
+
 import cv2
 
 from time import monotonic
 
 from src.camera import Camera
 from src.mediapipe import MediaPipePoseDetector
-from src.temporal_fall_detector import (
-    TemporalFallDetector,
-    FallState,
-    Posture,
-)
 from src.landmark_logger import LandmarkLogger
+from src.ml_fall_detector import MLFallDetector
+
+from train_fall_classifier import frame_features
 
 
-# =========================
+# ==================================================
 # Configuration
-# =========================
+# ==================================================
 
 CAMERA_INDEX = 0
 
@@ -22,19 +21,12 @@ FRAME_WIDTH = 1280
 FRAME_HEIGHT = 720
 FRAME_FPS = 30
 
-POSSIBLE_FALL_ANGLE = 60.0
-MIN_LANDMARK_VISIBILITY = 0.5
 
-RAPID_TRANSITION_SECONDS = 1.0
-LOW_POSTURE_SECONDS = 1.0
-RAPID_MOVEMENT_THRESHOLD = 0.08
-
+# ==================================================
+# Draw MediaPipe landmarks
+# ==================================================
 
 def draw_landmarks(frame, pose_landmarks):
-    """
-    Draw MediaPipe Pose landmarks and connections
-    onto an OpenCV frame.
-    """
 
     height, width = frame.shape[:2]
 
@@ -63,19 +55,19 @@ def draw_landmarks(frame, pose_landmarks):
         (27, 28),
     ]
 
-    # Draw connections
     for start_index, end_index in connections:
+
         start = pose_landmarks[start_index]
         end = pose_landmarks[end_index]
 
         start_point = (
             int(start.x * width),
-            int(start.y * height)
+            int(start.y * height),
         )
 
         end_point = (
             int(end.x * width),
-            int(end.y * height)
+            int(end.y * height),
         )
 
         cv2.line(
@@ -83,11 +75,11 @@ def draw_landmarks(frame, pose_landmarks):
             start_point,
             end_point,
             (0, 255, 0),
-            2
+            2,
         )
 
-    # Draw landmarks
     for landmark in pose_landmarks:
+
         x = int(landmark.x * width)
         y = int(landmark.y * height)
 
@@ -96,57 +88,87 @@ def draw_landmarks(frame, pose_landmarks):
             (x, y),
             4,
             (0, 0, 255),
-            -1
+            -1,
         )
 
+
+# ==================================================
+# Display helper
+# ==================================================
+
+def display_text(
+    frame,
+    text,
+    y,
+    color=(255, 255, 255),
+    scale=0.7,
+):
+
+    cv2.putText(
+        frame,
+        text,
+        (20, y),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        scale,
+        color,
+        2,
+    )
+
+
+# ==================================================
+# Main application
+# ==================================================
 
 def main():
 
     camera = None
-    detector = None
+    pose_detector = None
     logger = None
 
     try:
-        # =========================
-        # Initialize components
-        # =========================
+
+        # ------------------------------------------
+        # Initialize webcam
+        # ------------------------------------------
 
         camera = Camera(
             mode="live",
-            camera_index=CAMERA_INDEX
+            camera_index=CAMERA_INDEX,
         )
 
         camera.open()
 
-        # Configure webcam
         camera.cap.set(
             cv2.CAP_PROP_FRAME_WIDTH,
-            FRAME_WIDTH
+            FRAME_WIDTH,
         )
 
         camera.cap.set(
             cv2.CAP_PROP_FRAME_HEIGHT,
-            FRAME_HEIGHT
+            FRAME_HEIGHT,
         )
 
         camera.cap.set(
             cv2.CAP_PROP_FPS,
-            FRAME_FPS
+            FRAME_FPS,
         )
 
-        # Create MediaPipe pose detector
-        detector = MediaPipePoseDetector()
+        # ------------------------------------------
+        # Initialize MediaPipe
+        # ------------------------------------------
 
-        # Create temporal fall detector
-        fall_detector = TemporalFallDetector(
-            min_landmark_visibility=MIN_LANDMARK_VISIBILITY,
-            rapid_transition_seconds=RAPID_TRANSITION_SECONDS,
-            low_posture_seconds=LOW_POSTURE_SECONDS,
-            possible_fall_angle=POSSIBLE_FALL_ANGLE,
-            rapid_movement_threshold=RAPID_MOVEMENT_THRESHOLD,
-        )
+        pose_detector = MediaPipePoseDetector()
 
-        # Create landmark logger
+        # ------------------------------------------
+        # Load Random Forest V3
+        # ------------------------------------------
+
+        fall_detector = MLFallDetector()
+
+        # ------------------------------------------
+        # Initialize landmark logger
+        # ------------------------------------------
+
         logger = LandmarkLogger(
             "results/landmarks.csv"
         )
@@ -154,163 +176,228 @@ def main():
         logger.open()
 
         print("======================================")
-        print("ICT-304 MediaPipe Fall Detection")
+        print("ICT-304 Random Forest V3 Fall Detection")
         print("======================================")
+
         print(
             f"Requested resolution: "
             f"{FRAME_WIDTH}x{FRAME_HEIGHT}"
         )
+
         print(f"Requested FPS: {FRAME_FPS}")
+
         print(
-            f"Possible fall angle threshold: "
-            f"{POSSIBLE_FALL_ANGLE} degrees"
+            "Model: models/fall_classifier_v3.joblib"
         )
-        print("Press Q to quit.")
-        print()
+
+        print("Fall probability threshold: 50%")
+        print("Required positive predictions: 2")
+        print("Evidence window: 0.5 seconds")
+        print("Alert cooldown: 8 seconds")
+
+        print("\nPress Q to quit.\n")
 
         frame_number = 0
 
-        # =========================
-        # Main camera loop
-        # =========================
+        # ------------------------------------------
+        # Main webcam loop
+        # ------------------------------------------
 
         while True:
 
             frame = camera.read()
 
             if frame is None:
-                print("Failed to read frame from camera.")
+                print("Failed to read frame.")
                 break
 
-            # Detect pose
-            result = detector.detect(frame)
+            now = monotonic()
+
+            # Detect body pose using existing MediaPipe.
+            result = pose_detector.detect(frame)
 
             frame_number += 1
 
+            pose_landmarks = (
+                result.pose_landmarks[0]
+                if result.pose_landmarks
+                else None
+            )
 
-            if result.pose_landmarks:
-                # Use the first detected person.
-                pose_landmarks = result.pose_landmarks[0]
+            # --------------------------------------
+            # Random Forest V3 inference
+            # --------------------------------------
 
-                # Update the temporal detector using this frame's timestamp.
-                fall_state, posture = fall_detector.update(
+            (
+                fall_probability,
+                predicted_fall,
+                alert_triggered,
+                alert_active,
+            ) = fall_detector.update(
+                pose_landmarks,
+                timestamp=now,
+            )
+
+            # --------------------------------------
+            # Person detected
+            # --------------------------------------
+
+            if pose_landmarks is not None:
+
+                draw_landmarks(
+                    frame,
                     pose_landmarks,
-                    timestamp=monotonic(),
                 )
 
-                # Use the same stabilised landmarks for display and diagnosis.
-                filtered_landmarks = fall_detector.filtered_landmarks or pose_landmarks
-                features = fall_detector._features(filtered_landmarks)
-                torso_angle = features[0] if features is not None else None
+                # Show the same torso-angle feature
+                # used by the Random Forest model.
+                features = frame_features(
+                    pose_landmarks
+                )
 
-                # Log raw and filtered coordinates plus the current decision.
+                torso_angle = (
+                    float(features[0]) * 90.0
+                    if features is not None
+                    else None
+                )
+
+                # A probability threshold crossing is
+                # not itself a confirmed fall.
+                if alert_active:
+                    fall_state_text = "POTENTIAL FALL ALERT"
+
+                elif predicted_fall:
+                    fall_state_text = "FALL-LIKE MOVEMENT"
+
+                else:
+                    fall_state_text = "NO FALL ALERT"
+
                 logger.log(
                     frame_number,
                     pose_landmarks,
-                    filtered_landmarks=filtered_landmarks,
-                    posture=posture,
-                    fall_state=fall_state,
+                    filtered_landmarks=pose_landmarks,
+                    posture=None,
+                    fall_state=fall_state_text,
                     torso_angle=torso_angle,
                 )
 
-                # Draw filtered landmarks so the skeleton matches the geometry
-                # used by the posture and fall classifiers.
-                draw_landmarks(frame, filtered_landmarks)
-
-                # Display posture.
-                posture_text = f"Posture: {posture.value}"
-                cv2.putText(
+                display_text(
                     frame,
-                    posture_text,
-                    (20, 80),
-                    cv2.FONT_HERSHEY_SIMPLEX,
-                    0.7,
-                    (255, 255, 255),
-                    2,
+                    "MediaPipe: PERSON DETECTED",
+                    80,
                 )
 
-                # Display temporal fall state.
-                if fall_state == FallState.FALL:
-                    display_text = "FALL"
-                    display_color = (0, 0, 255)
-                elif fall_state == FallState.POSSIBLE_FALL:
-                    display_text = "POSSIBLE FALL"
-                    display_color = (0, 165, 255)
-                else:
-                    display_text = "NO FALL"
-                    display_color = (0, 255, 0)
+                if torso_angle is not None:
+                    display_text(
+                        frame,
+                        f"Torso angle: {torso_angle:.1f} deg",
+                        120,
+                    )
 
-                cv2.putText(
-                    frame,
-                    display_text,
-                    (20, 40),
-                    cv2.FONT_HERSHEY_SIMPLEX,
-                    1,
-                    display_color,
-                    2,
-                )
+            else:
 
-                # Display torso angle for debugging.
-                angle_text = (
-                    f"Torso angle: {torso_angle:.1f} deg"
-                    if torso_angle is not None
-                    else "Torso angle: unavailable"
-                )
+                fall_state_text = "NO PERSON DETECTED"
 
-                cv2.putText(
-                    frame,
-                    angle_text,
-                    (20, 120),
-                    cv2.FONT_HERSHEY_SIMPLEX,
-                    0.7,
-                    (255, 255, 255),
-                    2,
+            # --------------------------------------
+            # Display fall probability
+            # --------------------------------------
+
+            if fall_probability is None:
+                probability_text = (
+                    "Fall probability: unavailable"
                 )
 
             else:
-                # Let the temporal detector know no pose was detected.
-                fall_state, posture = fall_detector.update(
-                    None,
-                    timestamp=monotonic(),
+                probability_text = (
+                    f"Fall probability: "
+                    f"{fall_probability * 100:.1f}%"
                 )
 
-                cv2.putText(
-                    frame,
-                    "NO PERSON DETECTED",
-                    (20, 40),
-                    cv2.FONT_HERSHEY_SIMPLEX,
-                    1,
-                    (0, 0, 255),
-                    2,
-                )
+            # --------------------------------------
+            # Select alert display
+            # --------------------------------------
 
-            # Display live video
-            cv2.imshow(
-                "ICT-304 MediaPipe Fall Detection",
-                frame
+            if alert_active:
+
+                status_text = "POTENTIAL FALL ALERT"
+                status_color = (0, 0, 255)
+
+            elif predicted_fall:
+
+                status_text = "FALL-LIKE MOVEMENT"
+                status_color = (0, 165, 255)
+
+            elif pose_landmarks is None:
+
+                status_text = "NO PERSON DETECTED"
+                status_color = (0, 0, 255)
+
+            else:
+
+                status_text = "NO FALL ALERT"
+                status_color = (0, 255, 0)
+
+            display_text(
+                frame,
+                status_text,
+                40,
+                status_color,
+                1.0,
             )
 
-            # Press Q to quit
+            display_text(
+                frame,
+                probability_text,
+                160,
+            )
+
+            display_text(
+                frame,
+                "Detector: Random Forest V3",
+                200,
+            )
+
+            # --------------------------------------
+            # Record potential fall event
+            # --------------------------------------
+
+            if alert_triggered:
+
+                print(
+                    f"[POTENTIAL FALL] "
+                    f"Frame {frame_number}, "
+                    f"probability: "
+                    f"{fall_probability:.2%}"
+                )
+
+            # --------------------------------------
+            # Show video
+            # --------------------------------------
+
+            cv2.imshow(
+                "ICT-304 Random Forest V3 Fall Detection",
+                frame,
+            )
+
             if cv2.waitKey(1) & 0xFF == ord("q"):
                 break
 
     finally:
-        # =========================
-        # Release resources
-        # =========================
 
         if logger is not None:
             logger.close()
 
-        if detector is not None:
-            detector.close()
+        if pose_detector is not None:
+            pose_detector.close()
 
         if camera is not None:
             camera.release()
 
         cv2.destroyAllWindows()
 
-        print("Camera, MediaPipe and logger released.")
+        print(
+            "Camera, MediaPipe, and logger released."
+        )
 
 
 if __name__ == "__main__":
