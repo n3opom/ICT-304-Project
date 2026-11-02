@@ -3,6 +3,9 @@ import cv2
 
 from time import monotonic
 
+from collections import deque
+from statistics import median
+from types import SimpleNamespace
 from src.camera import Camera
 from src.mediapipe import MediaPipePoseDetector
 from src.landmark_logger import LandmarkLogger
@@ -22,6 +25,82 @@ FRAME_WIDTH = 1280
 FRAME_HEIGHT = 720
 FRAME_FPS = 30
 
+
+class LandmarkMedianFilter:
+    """
+    Three-frame median smoothing based on the
+    previous TemporalFallDetector implementation.
+
+    Returns 33 smoothed landmarks while preserving
+    visibility and presence metadata.
+    """
+
+    def __init__(self):
+        self.history = deque(maxlen=3)
+
+    def reset(self):
+        self.history.clear()
+
+    def update(self, landmarks):
+        if not landmarks:
+            self.reset()
+            return None
+
+        if self.history and len(
+            self.history[-1]
+        ) != len(landmarks):
+            self.reset()
+
+        coordinates = [
+            (
+                float(point.x),
+                float(point.y),
+                float(getattr(point, "z", 0.0)),
+            )
+            for point in landmarks
+        ]
+
+        self.history.append(coordinates)
+
+        # Same behaviour as the old implementation:
+        # do not apply median smoothing until
+        # three frames are available.
+        enough_samples = len(self.history) == 3
+
+        filtered = []
+
+        for i, point in enumerate(landmarks):
+            if enough_samples:
+                x = median(
+                    frame[i][0]
+                    for frame in self.history
+                )
+                y = median(
+                    frame[i][1]
+                    for frame in self.history
+                )
+                z = median(
+                    frame[i][2]
+                    for frame in self.history
+                )
+            else:
+                x, y, z = coordinates[i]
+
+            filtered.append(
+                SimpleNamespace(
+                    x=x,
+                    y=y,
+                    z=z,
+                    visibility=getattr(
+                        point, "visibility", None
+                    ),
+                    presence=getattr(
+                        point, "presence", None
+                    ),
+                )
+            )
+
+        return filtered
 
 # ==================================================
 # Draw MediaPipe landmarks
@@ -407,7 +486,7 @@ def main():
         print(
             "Camera, MediaPipe, and logger released."
         )
-        
+
         if notifier is not None:
             notifier.close()
 
