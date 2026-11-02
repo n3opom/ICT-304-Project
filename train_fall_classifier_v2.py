@@ -12,7 +12,7 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.model_selection import GroupShuffleSplit
-
+from train_fall_classifier import LandmarkMedianFilter
 
 # --------------------------------------------------
 # Configuration
@@ -356,6 +356,7 @@ def extract_video(video_path, labels):
 
     X, y = [], []
     history = deque()
+    landmark_filter = LandmarkMedianFilter()
 
     frame_number = 0
     last_sample_time = -1.0
@@ -402,7 +403,11 @@ def extract_video(video_path, labels):
                 else None
             )
 
-            features = frame_features(landmarks)
+            filtered_landmarks = landmark_filter.update(
+                landmarks
+            )
+
+            features = frame_features(filtered_landmarks)
 
             if features is None:
                 history.clear()

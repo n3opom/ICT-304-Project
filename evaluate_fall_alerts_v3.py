@@ -65,6 +65,7 @@ def replay_video(video_path, model, fold):
 
     history = deque()
     positive_times = deque()
+    landmark_filter = training.LandmarkMedianFilter()
 
     predictions = []
     alerts = []
@@ -124,8 +125,12 @@ def replay_video(video_path, model, fold):
                     else None
                 )
 
-                features = training.frame_features(
+                filtered_landmarks = landmark_filter.update(
                     landmarks
+                )
+
+                features = training.frame_features(
+                    filtered_landmarks
                 )
 
                 if features is None:

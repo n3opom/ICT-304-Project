@@ -12,6 +12,8 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.model_selection import GroupShuffleSplit
+from statistics import median
+from types import SimpleNamespace
 
 
 # --------------------------------------------------
@@ -59,6 +61,76 @@ ALL_LABELS = (
 # --------------------------------------------------
 # Validate ground-truth workbook
 # --------------------------------------------------
+
+class LandmarkMedianFilter:
+    """
+    Three-frame median preprocessing.
+
+    Matches the median-filter approach used
+    by the live Random Forest application.
+    """
+
+    def __init__(self):
+        self.history = deque(maxlen=3)
+
+    def reset(self):
+        self.history.clear()
+
+    def update(self, landmarks):
+        if not landmarks:
+            self.reset()
+            return None
+
+        if (
+            self.history
+            and len(self.history[-1]) != len(landmarks)
+        ):
+            self.reset()
+
+        coordinates = [
+            (
+                float(point.x),
+                float(point.y),
+                float(getattr(point, "z", 0.0)),
+            )
+            for point in landmarks
+        ]
+
+        self.history.append(coordinates)
+
+        enough_samples = len(self.history) == 3
+
+        filtered = []
+
+        for i, point in enumerate(landmarks):
+            if enough_samples:
+                x = median(
+                    frame[i][0] for frame in self.history
+                )
+                y = median(
+                    frame[i][1] for frame in self.history
+                )
+                z = median(
+                    frame[i][2] for frame in self.history
+                )
+            else:
+                x, y, z = coordinates[i]
+
+            filtered.append(
+                SimpleNamespace(
+                    x=x,
+                    y=y,
+                    z=z,
+                    visibility=getattr(
+                        point, "visibility", None
+                    ),
+                    presence=getattr(
+                        point, "presence", None
+                    ),
+                )
+            )
+
+        return filtered
 
 def load_labels():
     df = pd.read_excel(LABEL_FILE)
@@ -309,6 +381,7 @@ def extract_video(video_path, labels):
 
     X, y = [], []
     history = deque()
+    landmark_filter = LandmarkMedianFilter()
 
     frame_number = 0
     last_sample_time = -1.0
@@ -355,8 +428,12 @@ def extract_video(video_path, labels):
                 else None
             )
 
-            features = frame_features(landmarks)
+            filtered_landmarks = landmark_filter.update(
+                landmarks
+            )
 
+            features = frame_features(filtered_landmarks)
+            
             if features is None:
                 history.clear()
                 continue

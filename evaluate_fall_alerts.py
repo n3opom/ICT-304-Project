@@ -69,6 +69,7 @@ def replay_video(path, model, sample_fps, window_seconds):
 
     history = deque()
     evidence = deque()
+    landmark_filter = training.LandmarkMedianFilter()
     rows = []
     alerts = []
 
@@ -117,7 +118,13 @@ def replay_video(path, model, sample_fps, window_seconds):
                 else None
             )
 
-            features = training.frame_features(landmarks)
+            filtered_landmarks = landmark_filter.update(
+                landmarks
+            )
+
+            features = training.frame_features(
+                filtered_landmarks
+            )
 
             if features is None:
                 history.clear()
