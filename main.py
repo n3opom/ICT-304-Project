@@ -7,6 +7,7 @@ from src.camera import Camera
 from src.mediapipe import MediaPipePoseDetector
 from src.landmark_logger import LandmarkLogger
 from src.ml_fall_detector import MLFallDetector
+from src.alert_notifier import AlertNotifier
 
 from train_fall_classifier import frame_features
 
@@ -164,6 +165,11 @@ def main():
         # ------------------------------------------
 
         fall_detector = MLFallDetector()
+
+        notifier = AlertNotifier(
+        mode="telegram",
+        cooldown_seconds=60.0,
+)
 
         # ------------------------------------------
         # Initialize landmark logger
@@ -362,12 +368,15 @@ def main():
             # --------------------------------------
 
             if alert_triggered:
-
                 print(
                     f"[POTENTIAL FALL] "
                     f"Frame {frame_number}, "
-                    f"probability: "
-                    f"{fall_probability:.2%}"
+                    f"probability: {fall_probability:.2%}"
+                )
+
+                notifier.notify(
+                    fall_probability=fall_probability,
+                    timestamp=now,
                 )
 
             # --------------------------------------
@@ -398,6 +407,9 @@ def main():
         print(
             "Camera, MediaPipe, and logger released."
         )
+        
+        if notifier is not None:
+            notifier.close()
 
 
 if __name__ == "__main__":

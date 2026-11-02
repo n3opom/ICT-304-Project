@@ -1,4 +1,15 @@
+# Webcam and pose estimation
 mediapipe==1.0.1
 opencv-python
 numpy
+
+# Data processing and Excel labels
+pandas
+openpyxl
+
+# Random Forest training and inference
+scikit-learn
+joblib
+
+# Testing
 pytest
