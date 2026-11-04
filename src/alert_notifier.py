@@ -103,6 +103,35 @@ class AlertNotifier:
 
         return True
 
+    def notify_shutdown(self):
+        """Notify the caretaker when monitoring stops normally.
+
+        This is a system-status message, independent of fall cooldown.
+        close() waits for this message to finish sending.
+        """
+        event_time = datetime.now().astimezone()
+        time_text = event_time.strftime("%Y-%m-%d %H:%M:%S %Z")
+        message = (
+            "⚠️ FALL DETECTION MONITORING STOPPED\n\n"
+            "ICT304 Fall Detection System\n\n"
+            f"Shutdown Time: {time_text}\n\n"
+            "The monitoring program has stopped. "
+            "Fall detection and notifications are no longer active.\n\n"
+            "Please check that monitoring is restarted if required.\n\n"
+            "This is an automated prototype status notification."
+        )
+        print("[NOTIFIER] Monitoring stopped.")
+
+        if self.mode == "telegram":
+            self.executor.submit(
+                self._send_shutdown_telegram,
+                message,
+            )
+        else:
+            print("[NOTIFIER] Simulated shutdown notification.")
+
+        return True
+
     def _write_log(self, event_time, probability, status):
         self.writer.writerow([
             event_time,
@@ -114,7 +143,7 @@ class AlertNotifier:
         self.log_file.flush()
 
     def _send_telegram(
-        self, message, event_time, probability
+        self, message, event_time, probability,
     ):
         url = (
             f"https://api.telegram.org/"
@@ -155,6 +184,42 @@ class AlertNotifier:
         finally:
             self._write_log(
                 event_time, probability, status
+            )
+
+    def _send_shutdown_telegram(self, message):
+        """Send shutdown notification without CSV logging."""
+
+        url = (
+            f"https://api.telegram.org/"
+            f"bot{self.bot_token}/sendMessage"
+        )
+
+        data = urllib.parse.urlencode({
+            "chat_id": self.chat_id,
+            "text": message,
+        }).encode("utf-8")
+
+        try:
+            request = urllib.request.Request(
+                url,
+                data=data,
+                method="POST",
+            )
+
+            with urllib.request.urlopen(
+                request, timeout=10
+            ) as response:
+                result = json.load(response)
+
+            if result.get("ok"):
+                print("[NOTIFIER] Shutdown message sent.")
+            else:
+                print("[NOTIFIER] Telegram rejected shutdown message.")
+
+        except Exception as error:
+            print(
+                "[NOTIFIER] Shutdown sending failed:",
+                type(error).__name__,
             )
 
     def close(self):

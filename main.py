@@ -204,6 +204,7 @@ def main():
     camera = None
     pose_detector = None
     logger = None
+    notifier = None
 
     try:
 
@@ -471,6 +472,10 @@ def main():
                 break
 
     finally:
+
+        # Notify the caretaker on a normal Python shutdown.
+        if notifier is not None:
+            notifier.notify_shutdown()
 
         if logger is not None:
             logger.close()
