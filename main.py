@@ -245,6 +245,7 @@ def main():
         # ------------------------------------------
 
         fall_detector = MLFallDetector()
+        landmark_filter = LandmarkMedianFilter()
 
         notifier = AlertNotifier(
         mode="telegram",
@@ -310,6 +311,10 @@ def main():
                 else None
             )
 
+            filtered_landmarks = landmark_filter.update(
+                pose_landmarks
+            )
+
             # --------------------------------------
             # Random Forest V3 inference
             # --------------------------------------
@@ -320,7 +325,7 @@ def main():
                 alert_triggered,
                 alert_active,
             ) = fall_detector.update(
-                pose_landmarks,
+                filtered_landmarks,
                 timestamp=now,
             )
 
@@ -338,7 +343,7 @@ def main():
                 # Show the same torso-angle feature
                 # used by the Random Forest model.
                 features = frame_features(
-                    pose_landmarks
+                    filtered_landmarks
                 )
 
                 torso_angle = (
@@ -361,7 +366,7 @@ def main():
                 logger.log(
                     frame_number,
                     pose_landmarks,
-                    filtered_landmarks=pose_landmarks,
+                    filtered_landmarks=filtered_landmarks,
                     posture=None,
                     fall_state=fall_state_text,
                     torso_angle=torso_angle,
