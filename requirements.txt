@@ -1,15 +1,12 @@
-# Webcam and pose estimation
+# Pose estimation and offline video processing
 mediapipe==1.0.1
 opencv-python
 numpy
 
-# Data processing and Excel labels
+# Ground-truth Excel workbook and experiment output
 pandas
 openpyxl
 
-# Random Forest training and inference
+# Random Forest training, cross-validation, and saved models
 scikit-learn
 joblib
-
-# Testing
-pytest
