@@ -1,359 +1,167 @@
-# ICT-304 AI System Design Project
+# ICT304 Intelligent Home Care System — Final Implementation
 
-## Project Overview
+This branch contains the **standalone, webcam-based Random Forest V3 fall-detection application** for the ICT304 AI System Design project. It is the live inference implementation, not the model-training or offline-evaluation workspace.
 
-This repository contains the development work for the ICT-304 AI System Design project.
+The application detects a person's body pose, analyses recent posture and movement, displays a fall classification score, and can send a **potential fall** notification through Telegram. It is an academic prototype, not a medical device or emergency-response service.
 
-The project investigates computer-vision techniques for automated human fall detection using a camera. Two AI-based approaches were investigated independently:
+## What this branch includes
 
-- **YOLO object detection using bounding boxes**
-- **MediaPipe Pose using body landmarks**
+- Live webcam capture through OpenCV (camera index `0` by default).
+- MediaPipe Pose Landmarker inference with the bundled `pose_landmarker_full.task` model.
+- **Three-frame median smoothing** of landmark coordinates before feature extraction. The first two detected frames are passed through without median smoothing while the history fills; the filter resets when no pose is detected.
+- Nine selected pose landmarks used to calculate 11 measurements per processed observation.
+- A one-second temporal feature window summarised into **66 features** for the pretrained Random Forest V3 classifier.
+- On-screen fall probability, torso angle, pose skeleton and monitoring status.
+- Potential-fall alerts with temporal confirmation and cooldown periods.
+- Telegram caregiver alerts (or a local simulated notification mode).
+- CSV logging of raw and filtered pose landmarks, and notification outcomes.
 
-The project was developed incrementally using separate Git branches so that each major component and AI technique could be developed and tested independently before further integration work.
+This branch **does not contain** the V1–V3 training scripts, offline evaluation scripts, private training videos or ground-truth workbook. Those experiments are maintained separately in `feature/classifier-training-evaluation`.
 
-> **Important:** The `feature/integration` branch is a **technical integration prototype**, not the final system design. Its purpose was to verify that the camera, MediaPipe Pose, and related processing code could work together. The integration code is therefore different from the final intended fall-detection design.
-
----
-
-## Project Objectives
-
-The project aims to investigate and develop a computer-vision-based approach for detecting potential human falls.
-
-The development process focuses on:
-
-1. Establishing a reusable camera input component.
-2. Investigating YOLO as a bounding-box-based detection technique.
-3. Investigating MediaPipe Pose as a pose-landmark-based detection technique.
-4. Testing the two techniques using labelled test images and parameter combinations.
-5. Comparing the experimental results of the two approaches.
-6. Creating a Camera + MediaPipe integration prototype to verify that the components can operate together.
-7. Providing a foundation for the subsequent development of the final system design.
-
----
-
-## AI Techniques Investigated
-
-### YOLO Bounding Box Detection
-
-The YOLO branch investigates fall detection using object detection and bounding-box geometry.
-
-YOLO detects people in an image and provides bounding boxes around detected persons. The implementation then calculates the bounding-box width-to-height ratio and uses a configurable threshold to classify the detected person as either:
-
-- `FALL`
-- `NOT FALL`
-
-The YOLO experiments tested combinations of detection confidence and bounding-box ratio thresholds.
-
-The branch also records image-level and combination-level results, including:
-
-- True Positives (TP)
-- True Negatives (TN)
-- False Positives (FP)
-- False Negatives (FN)
-- Accuracy
-- Precision
-- Recall
-- F1-score
-
-See the `feature/yolo` branch README for the detailed implementation and experimental procedure.
-
----
-
-### MediaPipe Pose
-
-The MediaPipe branch investigates human pose estimation using body landmarks.
-
-Instead of representing a person using a rectangular bounding box, MediaPipe Pose provides landmark points representing different parts of the body. The implementation uses these landmarks to calculate body geometry, including torso orientation, which is then used as part of the fall-detection approach.
-
-The MediaPipe branch also includes parameter testing and CSV-based experimental results for evaluating different combinations of fall-detection parameters.
-
-See the `feature/mediapipe` branch README for the detailed implementation and experimental procedure.
-
----
-
-## Repository Branches
-
-The repository is organised into separate development branches.
-
-| Branch | Purpose |
-|---|---|
-| `main` | Project-level repository and documentation |
-| `feature/camera` | Development and testing of the camera input component |
-| `feature/yolo` | YOLO-based fall-detection investigation |
-| `feature/mediapipe` | MediaPipe Pose fall-detection investigation |
-| `feature/integration` | Prototype used to verify that the computer-vision components can work together |
-
-### Branch Development Approach
-
-The branches were used to separate the development and testing of individual components.
-
-The general development process was:
-
-```text
-Camera Development
-       │
-       ├───────────────┐
-       │               │
-       ▼               ▼
- YOLO Investigation   MediaPipe Investigation
-       │               │
-       └───────┬───────┘
-               ▼
-      Technique Comparison
-               │
-               ▼
-       Camera + MediaPipe
-       Integration Prototype
-               │
-               ▼
-   Further Final-System Design
-```
-
-The integration branch should therefore **not be interpreted as the final implementation**. It was an intermediate technical check to determine whether the relevant components could operate together.
-
----
-
-## Integration Prototype
-
-The `feature/integration` branch combines the **Camera and MediaPipe Pose** components into a working prototype.
-
-Its primary purpose was to verify that these two components could operate together. It was **not intended to implement the final fall-detection design**.
-
-The prototype processing pipeline is:
-
-```text
-Webcam
-   ↓
-Camera Module
-   ↓
-OpenCV Frame
-   ↓
-MediaPipe Pose
-   ↓
-Pose Landmarks
-   ↓
-Landmark Logging
-```
-
-The current integration prototype:
-
-- Opens the webcam through the Camera class.
-- Captures OpenCV frames.
-- Passes frames to MediaPipe Pose.
-- Detects pose landmarks.
-- Draws the detected pose on the video.
-- Records landmark information into a CSV file.
-
-The integration code is intentionally different from the individual YOLO and MediaPipe investigation code because it was developed as a separate prototype for checking component compatibility.
-
-YOLO is **not part of this integration prototype**. The YOLO branch remains an independent investigation used for comparison with the MediaPipe approach.
-
-The prototype is **not the final fall-detection implementation** and should not be treated as the final system architecture. The final system design may use different processing logic, classes, decision rules, and component interactions based on the investigation results and project requirements.
-
----
-
-## Project Structure
-
-The exact contents differ between branches. At a high level, the repository contains:
+## Directory structure
 
 ```text
 ICT-304-Project/
-│
-├── data/
-│   └── test/
-│
-├── src/
-│   ├── camera.py
-│   ├── yolo.py
-│   ├── yolo_detection.py
-│   ├── yolo_fall_detection.py
-│   ├── mediapipe.py
-│   └── ...
-│
-├── tests/
-│   ├── test_camera.py
-│   ├── test_yolo.py
-│   ├── test_yolo_images.py
-│   └── test_mediapipe.py
-│
+├── main.py
 ├── models/
-│
-├── results/
-│
+│   ├── fall_classifier_v3.joblib
+│   └── pose_landmarker_full.task
+├── src/
+│   ├── __init__.py
+│   ├── camera.py
+│   ├── mediapipe.py
+│   ├── fall_features.py
+│   ├── ml_fall_detector.py
+│   ├── alert_notifier.py
+│   └── landmark_logger.py
 ├── requirements.txt
-│
+├── .gitignore
 └── README.md
 ```
 
-Not every file shown above exists on every branch. Each feature branch contains the files relevant to its specific development stage.
-
----
-
-## Testing
-
-Testing was performed at both the component and experimental levels.
-
-### Component Testing
-
-Unit tests were created for components such as:
-
-- Camera initialisation and operation
-- Camera input modes
-- YOLO functionality
-- MediaPipe initialisation and image processing
-
-The purpose of these tests was to verify that individual components behaved as expected before being used in larger processing pipelines.
-
-### AI Technique Testing
-
-The YOLO and MediaPipe branches also contain image-based testing.
-
-The labelled test dataset contains fall and non-fall examples. The AI techniques were tested against these examples and their predictions were compared against the ground-truth labels.
-
-Results were recorded in CSV files so that different parameter combinations could be compared.
-
----
-
-## Experimental Results
-
-The investigation produced separate results for the two AI techniques.
-
-### YOLO
-
-The YOLO testing evaluated combinations of:
-
-- Detection confidence
-- Bounding-box ratio threshold
-
-The resulting CSV files contain raw detection information, image-level classifications, and summary metrics for parameter combinations.
-
-### MediaPipe Pose
-
-The MediaPipe testing evaluated combinations of parameters associated with the pose-based fall-detection method.
-
-The resulting CSV files contain raw landmark/detection information, image-level classifications, and parameter-combination results.
-
-The experimental results are used to understand the behaviour of each approach and inform the subsequent system-design decisions.
-
----
+The `results/` directory and its CSV outputs are created locally at runtime and are not committed to this branch.
 
 ## Requirements
 
-Each feature branch maintains its own requirements according to the libraries used by that branch.
+- Python and `pip` (the application was developed for Windows using Python 3.13).
+- A working webcam and a desktop environment capable of displaying an OpenCV window.
+- Network access and valid Telegram bot credentials **when using the default Telegram notification mode**.
+- The two model files shown above, already included in this branch.
 
-Typical project dependencies include:
+Install Python packages from `requirements.txt`. Training-related packages such as `pandas`, `openpyxl` and `pytest` are not needed to launch this live application.
 
-- Python
-- OpenCV
-- NumPy
-- Pytest
-- MediaPipe
-- Ultralytics YOLO
+## Installation and setup
 
-Refer to the `requirements.txt` file on the specific branch being used before installing dependencies.
-
----
-
-## Running the Project
-
-Because the repository contains separate development branches, the appropriate branch should be selected depending on the component being tested.
-
-For example:
+From the repository directory, select this branch (if it has not already been checked out):
 
 ```bash
-git switch feature/camera
+git switch feature/final-implementation
 ```
+
+Create and activate a virtual environment in PowerShell:
+
+```powershell
+py -m venv venv
+venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+Alternatively, use Git Bash:
 
 ```bash
-git switch feature/yolo
+py -m venv venv
+source venv/Scripts/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 ```
+
+If PowerShell blocks environment activation, use `venv\Scripts\python.exe -m pip install -r requirements.txt` and `venv\Scripts\python.exe main.py` directly instead.
+
+### Telegram notification setup
+
+The current `main.py` creates `AlertNotifier(mode="telegram", cooldown_seconds=60.0)`. **Without both environment variables below, startup will fail.**
+
+Set them in the **same terminal session** before launching the program. In PowerShell:
+
+```powershell
+$env:TELEGRAM_BOT_TOKEN = "YOUR_BOT_TOKEN"
+$env:TELEGRAM_CHAT_ID = "YOUR_CHAT_ID"
+```
+
+Or in Git Bash:
 
 ```bash
-git switch feature/mediapipe
+export TELEGRAM_BOT_TOKEN="YOUR_BOT_TOKEN"
+export TELEGRAM_CHAT_ID="YOUR_CHAT_ID"
 ```
+
+Obtain your bot token from a bot you control, and configure the destination chat ID for that bot. Never commit actual tokens, chat IDs or other secrets to GitHub.
+
+If Telegram is unavailable and only a local demonstration is needed, the notifier supports `mode="simulated"`. To use it, change **only the notifier's `mode` argument** in your local `main.py` from `"telegram"` to `"simulated"`. This is an optional local configuration change; the committed branch defaults to Telegram.
+
+## Run the live application
+
+From the project root, with the environment activated and (for Telegram mode) credentials configured:
 
 ```bash
-git switch feature/integration
+python main.py
 ```
 
-Each branch contains its own implementation and documentation describing how that component is run.
+On Windows, `py main.py` also works when the appropriate packages are installed for the Python interpreter selected by `py`.
 
----
+The application requests a camera resolution of **1280 × 720 at 30 FPS**, although the device may supply a different actual rate or resolution. Change `CAMERA_INDEX` near the top of `main.py` if the intended webcam is not at index `0`.
 
-## Development Workflow
+Press **Q** while the preview window is active to stop monitoring. On shutdown, camera and MediaPipe resources are released and the notifier attempts to send a monitoring-stopped status message in Telegram mode.
 
-The project uses Git for version control and separates major development activities into feature branches.
+## Processing flow
 
-A typical workflow is:
-
-```bash
-git switch <branch>
-git pull
+```text
+Webcam frame
+    -> MediaPipe Pose Landmarker (up to one person, 33 landmarks)
+    -> Three-frame landmark-coordinate median filter
+    -> Nine selected landmarks and 11 per-frame measurements
+    -> One-second history / 66 temporal features
+    -> Random Forest V3 fall probability
+    -> Temporal confirmation and alert state
+    -> Screen display, caregiver notification, CSV logging
 ```
 
-After making changes:
+The preview draws the **raw** pose landmarks. Classification and the displayed torso-angle measurement use the **filtered** landmarks. The landmark CSV retains both raw and filtered coordinates.
 
-```bash
-git add .
-git commit -m "Description of changes"
-git push origin <branch>
-```
+### Detection and alert settings
 
-The `main` branch serves as the project-level repository, while the feature branches preserve the development and testing work for the individual components.
+| Setting | Value | Location |
+| --- | --- | --- |
+| Fall probability threshold | 0.50 | `src/ml_fall_detector.py` |
+| Minimum positive predictions | 2 within the evidence window | `src/ml_fall_detector.py` |
+| Positive evidence window | 0.5 seconds | `src/ml_fall_detector.py` |
+| Detector alert cooldown | 8 seconds | `src/ml_fall_detector.py` |
+| On-screen alert display | 3 seconds | `src/ml_fall_detector.py` |
+| Caregiver notification cooldown | 60 seconds | `main.py` / `src/alert_notifier.py` |
 
----
+The two positive predictions need not be consecutive. A fall probability above the threshold is a **fall-like prediction**, not an independently verified emergency. The program displays `FALL-LIKE MOVEMENT` while a positive prediction is present and `POTENTIAL FALL ALERT` when the alert state is active.
 
-## Current Development Status
+## Runtime output
 
-The project has progressed through several stages:
+| File | Contents |
+| --- | --- |
+| `results/landmarks.csv` | One row per detected landmark, including timestamp, frame number, raw and filtered coordinates, visibility, presence, display status and torso angle. This file is **overwritten** at the start of each run. |
+| `results/caregiver_alerts.csv` | Notification attempts and their outcomes (`SENT`, `FAILED` or `SIMULATED`, depending on mode). This file is **appended** across runs. |
 
-1. **Camera component**
-   - Camera input functionality developed and tested.
+The `.gitignore` excludes generated CSV files under `results/`. Depending on the data recorded, landmark logs may reveal sensitive information about monitored people; handle and share them appropriately.
 
-2. **YOLO investigation**
-   - YOLO-based person detection and bounding-box fall classification investigated.
-   - Parameter combinations tested and recorded.
+## Troubleshooting
 
-3. **MediaPipe Pose investigation**
-   - Pose landmark detection and pose-based fall classification investigated.
-   - Parameter combinations tested and recorded.
+- **`ModuleNotFoundError: No module named 'src'`**: Run the command from the repository's root directory (the directory containing `main.py`).
+- **Missing Telegram environment variables**: Configure both `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` in the terminal before running, or switch locally to simulated mode.
+- **Camera cannot be opened**: Check Windows camera permissions, close other webcam applications and verify `CAMERA_INDEX`.
+- **Missing model file**: Confirm that both model files are present in `models/` under their exact names.
+- **Fall probability unavailable**: The temporal feature extractor needs at least five timestamped observations with a positive time interval, and a detectable pose must be present.
+- **Telegram notification failed**: Confirm internet connectivity, bot token, chat ID and that the bot can message the destination; review the console and `results/caregiver_alerts.csv`.
 
-4. **Technique comparison**
-   - Results from the YOLO and MediaPipe investigations can be compared to support subsequent design decisions.
+## Scope and limitations
 
-5. **Integration prototype**
-   - Camera and MediaPipe processing were combined to verify that these components could operate together.
-   - This branch is an intermediate technical prototype rather than the final system.
-   - YOLO is not part of this integration prototype.
+This system monitors **one detected person at a time** and relies on visible pose landmarks. Occlusion, lighting, camera angle, controlled lying-down movements and differences between individuals can affect predictions. False positives and missed falls remain possible. The Telegram message is a **prototype caregiver notification**, not a call to emergency services. The application should not be relied on as the sole means of monitoring a person at risk.
 
-6. **Final system development**
-   - The final system design and implementation can be developed based on the findings from the individual investigations and the requirements of the project.
-
----
-
-## Important Repository Note
-
-The different branches represent **different development stages and purposes**. Their code should not be expected to be identical.
-
-In particular:
-
-- The Camera branch focuses on reusable camera input.
-- The YOLO branch focuses on object detection and bounding-box-based analysis.
-- The MediaPipe branch focuses on pose landmarks and pose-based analysis.
-- The Integration branch contains prototype code for testing Camera + MediaPipe component compatibility.
-- The `main` branch provides the overall project documentation.
-
-Therefore, differences between the branch implementations are intentional and reflect the development and testing process of the project.
-
----
-
-## Project Documentation
-
-Detailed documentation for each development stage is maintained within its respective branch:
-
-- `feature/camera` — Camera component
-- `feature/yolo` — YOLO investigation
-- `feature/mediapipe` — MediaPipe Pose investigation
-- `feature/integration` — Integration prototype
-
-This README provides the overall project context, while the branch-specific READMEs provide implementation-level details.
+For the model-training procedures, cross-validation experiments, ground-truth annotations and offline evaluation results, refer to `feature/classifier-training-evaluation`. Its original participant recordings are intentionally not distributed publicly for privacy reasons.
