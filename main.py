@@ -12,7 +12,7 @@ from src.landmark_logger import LandmarkLogger
 from src.ml_fall_detector import MLFallDetector
 from src.alert_notifier import AlertNotifier
 
-from train_fall_classifier import frame_features
+from src.fall_features import frame_features
 
 
 # ==================================================

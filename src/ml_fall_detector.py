@@ -6,7 +6,7 @@ from time import monotonic
 import joblib
 import numpy as np
 
-from train_fall_classifier import (
+from src.fall_features import (
     frame_features,
     temporal_features,
 )
