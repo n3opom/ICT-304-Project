@@ -1,15 +1,7 @@
-# Webcam and pose estimation
+# Runtime dependencies for the main branch (live Random Forest V3 application)
+# MediaPipe version matches the supplied project's existing configuration.
 mediapipe==1.0.1
 opencv-python
 numpy
-
-# Data processing and Excel labels
-pandas
-openpyxl
-
-# Random Forest training and inference
 scikit-learn
 joblib
-
-# Testing
-pytest
