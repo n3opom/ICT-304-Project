@@ -1,513 +1,144 @@
-# ICT-304 Project — MediaPipe Branch
+# ICT304 Intelligent Home Care System — MediaPipe Prototype
+
+**Branch:** `feature/mediapipe`  
+**Purpose:** Early pose-based fall-classification prototype and image-based parameter evaluation.
 
 ## Overview
 
-The `feature/mediapipe` branch develops the **MediaPipe Pose** fall-detection technique for the ICT-304 AI System Design project.
+This branch investigates whether body landmarks obtained from **MediaPipe Pose Landmarker** can support a simple fall/no-fall classification. It detects pose landmarks in an image, calculates the orientation of the torso using the shoulders and hips, and compares the angle against a configurable threshold.
 
-This branch separates the MediaPipe implementation into two main components:
+This is an **experimental, image-based prototype**, not the project's final live monitoring application. The final deployed Random Forest V3 application is maintained separately in `main` and `feature/final-implementation`.
 
-1. **Pose detection** — detects a human pose and obtains body landmarks using the MediaPipe Pose Landmarker.
-2. **Fall detection** — uses the orientation of the person's torso to classify the pose as `FALL` or `NO_FALL`.
-
-The branch also contains a parameter-testing framework that evaluates different MediaPipe detection-confidence values and torso-angle thresholds against a labelled test dataset.
-
-## Branch Structure
+## Repository structure
 
 ```text
-ICT-304-Project/
-│
-├── .vscode/
-│
-├── data/
-│   └── test_images/
-│       └── [test images]
-│
-├── results/
-│   ├── mediapipe_combination_results.csv
-│   ├── mediapipe_image_results.csv
-│   └── mediapipe_raw_results.csv
-│
+.
 ├── src/
-│   ├── mediapipe.py
-│   └── mediapipe_fall_detection.py
-│
+│   ├── mediapipe.py                 # MediaPipe pose detection
+│   └── mediapipe_fall_detection.py  # Torso-angle fall classification
 ├── tests/
-│   ├── test_mediapipe.py
-│   └── test_mediapipe_images.py
-│
-├── .gitignore
-├── README.md
-├── ground_truth.csv
-├── pose_landmarker_full.task
-└── requirements.txt
+│   ├── test_mediapipe.py            # Component checks
+│   └── test_mediapipe_images.py     # Image-based parameter experiment
+├── data/
+│   └── test_images/                 # 20 labelled test images
+├── results/
+│   ├── mediapipe_raw_results.csv
+│   ├── mediapipe_image_results.csv
+│   └── mediapipe_combination_results.csv
+├── ground_truth.csv                # Image names and activity labels
+├── pose_landmarker_full.task       # Pretrained pose-landmarker model
+├── requirements.txt
+└── README.md
 ```
 
-## MediaPipe Pose Detection
+## How it works
 
-The main pose detector is implemented in:
+1. `MediaPipePoseDetector` (`src/mediapipe.py`) converts an OpenCV BGR image to RGB and runs the pretrained MediaPipe Pose Landmarker in **IMAGE** mode.
+2. The detector returns the landmark list for the **first detected pose**, or `None` if no pose is detected. The default configuration requests one pose.
+3. `MediaPipeFallDetector` (`src/mediapipe_fall_detection.py`) finds the left/right shoulders and hips, checks their visibility, and calculates the shoulder and hip midpoints.
+4. The torso angle relative to the horizontal is calculated from the midpoint-to-midpoint vector. An angle near **0°** is approximately horizontal; near **90°** is approximately vertical.
+5. With the default `torso_angle_threshold=60.0`, a valid torso angle **below 60°** is classified as `FALL`; otherwise it is `NO_FALL`. The standalone classifier returns `NO_PERSON` if no landmarks are supplied.
 
-```text
-src/mediapipe.py
-```
+The default minimum required landmark visibility is `0.5`. If required landmarks have insufficient visibility, the classifier cannot establish a falling posture and returns `NO_FALL`. The experiment also treats missing pose detections as negative (`NO_FALL`) predictions when calculating its confusion matrix.
 
-The branch uses the MediaPipe Tasks API and the `pose_landmarker_full.task` model.
-
-The model file is located at the project root:
-
-```text
-pose_landmarker_full.task
-```
-
-The detector converts OpenCV BGR images to RGB before passing them to the MediaPipe Pose Landmarker. It then obtains the detected pose landmarks. fileciteturn1file1L69-L92
-
-### Detection Parameters
-
-The `MediaPipePoseDetector` supports the following parameters:
-
-```python
-MediaPipePoseDetector(
-    model_path=None,
-    min_detection_confidence=0.5,
-    min_pose_presence_confidence=0.5,
-    min_tracking_confidence=0.5,
-    num_poses=1
-)
-```
-
-The detection-confidence parameters control the MediaPipe pose detection, pose presence, and tracking confidence thresholds.
-
-The `num_poses` parameter controls the number of poses that MediaPipe is configured to detect. The current default is:
-
-```text
-num_poses = 1
-```
-
-Although the detector can be configured for more than one pose, `get_landmarks()` currently returns the landmarks belonging to the **first detected pose**. fileciteturn1file1L17-L23 fileciteturn1file1L96-L110
-
-## Fall Detection Method
-
-The fall-classification logic is implemented in:
-
-```text
-src/mediapipe_fall_detection.py
-```
-
-The system determines whether a detected pose represents a fall based on **torso orientation**.
-
-The torso angle is defined approximately as:
-
-```text
-0°  = horizontal torso
-90° = vertical torso
-```
-
-The detector uses the following four landmarks:
-
-- Left shoulder
-- Right shoulder
-- Left hip
-- Right hip
-
-The midpoint of the two shoulders and the midpoint of the two hips are calculated. The vector between these two midpoints is then used to calculate the torso angle relative to the horizontal axis. fileciteturn1file0L59-L71 fileciteturn1file0L75-L135
-
-### Fall Classification
-
-The default torso-angle threshold is:
-
-```text
-60°
-```
-
-The classification rule is:
-
-```text
-torso angle < threshold  → FALL
-torso angle ≥ threshold  → NO_FALL
-```
-
-If no pose is detected, the classifier returns:
-
-```text
-NO_PERSON
-```
-
-The fall detector also checks the visibility of the required landmarks before calculating the torso angle. fileciteturn1file0L18-L28 fileciteturn1file0L137-L174
-
-## Test Dataset
-
-The test images are stored in:
-
-```text
-data/test_images/
-```
-
-The ground-truth labels are stored separately in:
-
-```text
-ground_truth.csv
-```
-
-The ground-truth dataset contains 20 labelled images:
-
-- 10 falling images
-- 10 non-falling images
-
-The falling images are labelled with:
-
-```text
-fall001.jpg
-...
-fall010.jpg
-```
-
-The non-falling images include sitting and standing conditions, such as:
-
-```text
-not fallen001.jpg
-...
-not fallen010.jpg
-```
-
-The ground-truth file uses the `condition` column to identify the expected condition, including `falling`, `sitting`, and `standing`.
-
-The ground-truth labels are used to calculate classification performance during the parameter-testing process.
-
-## Parameter Testing
-
-The MediaPipe branch tests combinations of two parameters:
-
-### Detection confidence
-
-Five values are tested:
-
-```text
-0.3
-0.4
-0.5
-0.6
-0.7
-```
-
-### Torso-angle threshold
-
-Eight values are tested:
-
-```text
-30°
-35°
-40°
-45°
-50°
-55°
-60°
-65°
-```
-
-This produces:
-
-```text
-5 × 8 = 40 parameter combinations
-```
-
-Each combination is evaluated against the 20-image test dataset.
-
-The resulting performance measures include:
-
-- True Positive (TP)
-- True Negative (TN)
-- False Positive (FP)
-- False Negative (FN)
-- Accuracy
-- Precision
-- Recall
-- F1 score
-
-## Results Files
-
-The `results` directory contains three CSV outputs.
-
-### 1. `mediapipe_raw_results.csv`
-
-Contains the raw detection information for each image.
-
-The recorded information includes:
-
-- Image filename
-- Detection confidence
-- Whether a person was detected
-- Torso angle
-- Left shoulder visibility
-- Right shoulder visibility
-- Left hip visibility
-- Right hip visibility
-- Reason when detection could not be performed
-
-This file is useful for examining the actual pose-detection output before applying the fall-classification threshold.
-
-### 2. `mediapipe_image_results.csv`
-
-Contains image-level classification results for each parameter combination.
-
-The results include:
-
-- Image
-- Ground-truth condition
-- Actual label
-- Detection confidence
-- Torso-angle threshold
-- Predicted label
-- TP/TN/FP/FN
-- Correct/incorrect result
-- Person detection status
-- Torso angle
-- Landmark visibility values
-- Reason for the result
-
-There are 800 rows in this result file, representing:
-
-```text
-20 images × 40 parameter combinations
-```
-
-### 3. `mediapipe_combination_results.csv`
-
-Contains the aggregated performance for each of the 40 parameter combinations.
-
-Each row represents one:
-
-```text
-Detection confidence × Torso-angle threshold
-```
-
-combination.
-
-The output contains:
-
-```text
-detection_confidence
-torso_angle_threshold
-TP
-TN
-FP
-FN
-accuracy
-precision
-recall
-F1
-```
-
-## Observed Parameter-Test Results
-
-Based on the generated combination results, several parameter combinations produced:
-
-```text
-Accuracy  = 0.90
-Precision = 1.00
-Recall    = 0.80
-F1        = 0.888889
-```
-
-For example, detection confidence values of `0.3`, `0.4`, and `0.5` produced these results at several torso-angle thresholds between `40°` and `60°`.
-
-The corresponding confusion-matrix counts were:
-
-```text
-TP = 8
-TN = 10
-FP = 0
-FN = 2
-```
-
-These results are based on the 20-image test dataset and should therefore be treated as the measured performance of this test set rather than a general performance guarantee.
-
-## Example of Torso-Angle Interpretation
-
-For a representative parameter combination of:
-
-```text
-Detection confidence = 0.5
-Torso-angle threshold = 60°
-```
-
-a detected torso angle such as:
-
-```text
-13.3°
-```
-
-is classified as:
-
-```text
-FALL
-```
-
-because it is below the 60° threshold.
-
-A torso angle such as:
-
-```text
-88.4°
-```
-
-is classified as:
-
-```text
-NO_FALL
-```
-
-because it is above the threshold.
-
-This illustrates how the system uses body orientation rather than a bounding-box shape to determine the fall classification.
-
-## Testing
-
-The automated tests are located in:
-
-```text
-tests/
-├── test_mediapipe.py
-└── test_mediapipe_images.py
-```
-
-Run the tests from the project root:
-
-```bash
-pytest -v
-```
-
-The tests are intended to verify the MediaPipe detector and the image-based fall-detection workflow.
+**Important:** This rule describes torso orientation in a still image. It does **not** establish whether a person actually experienced a fall, and does not measure the speed or duration of the movement. Deliberate lying down may appear similar to a fall.
 
 ## Installation
 
-Create and activate a virtual environment if required:
+From the repository root, create and activate a virtual environment (recommended):
 
 ```bash
 python -m venv venv
 ```
 
-Windows:
+On Windows PowerShell:
+
+```powershell
+.\venv\Scripts\Activate.ps1
+```
+
+On Git Bash:
 
 ```bash
-venv\Scripts\activate
+source venv/Scripts/activate
 ```
 
 Install the branch dependencies:
 
 ```bash
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
-The branch requirements are:
+The supplied `pose_landmarker_full.task` file must remain in the **project root**, alongside `README.md`. This is the default path used by `src/mediapipe.py`.
 
-```text
-mediapipe==1.0.1
-opencv-python
-numpy
-pytest
+## Run the tests and image experiment
+
+Run the component checks:
+
+```bash
+python -m pytest tests/test_mediapipe.py -v
 ```
 
-The MediaPipe model file must also be present:
+Run the image experiment:
 
-```text
-pose_landmarker_full.task
+```bash
+python -m pytest tests/test_mediapipe_images.py -s
 ```
 
-## MediaPipe Processing Pipeline
+Or run all tests and the experiment together:
 
-The processing performed by this branch can be represented as:
-
-```text
-Input Image
-     │
-     ▼
-MediaPipe Pose Landmarker
-     │
-     ▼
-Pose Landmarks
-     │
-     ├── Shoulders
-     │
-     └── Hips
-     │
-     ▼
-Shoulder & Hip Midpoints
-     │
-     ▼
-Torso Angle Calculation
-     │
-     ▼
-Compare Against Threshold
-     │
-     ├── Angle < Threshold
-     │       │
-     │       ▼
-     │      FALL
-     │
-     └── Angle ≥ Threshold
-             │
-             ▼
-          NO_FALL
+```bash
+python -m pytest -v
 ```
 
-If no pose is detected, the system reports:
+The image experiment is also defined as `run_mediapipe_experiment()` inside `tests/test_mediapipe_images.py`. **No `main.py` or webcam application is provided on this branch.**
 
-```text
-NO_PERSON
+### Required test data
+
+The experiment expects **exactly 20 images** inside `data/test_images/` and matching rows in `ground_truth.csv`. The included dataset has 10 images labelled `falling` and 10 labelled `sitting` or `standing`.
+
+The ground-truth CSV uses these columns:
+
+```csv
+image,condition
+fall001.jpg,falling
+not fallen001.jpg,sitting
 ```
 
-## Role in the Overall AI System
+The `image` values must exactly match the filenames in `data/test_images/` (including spaces). Labels such as `falling` or `fall` are mapped to `FALL`; `sitting`, `standing`, `not fallen` and other supported non-fall labels map to `NO_FALL`.
 
-The MediaPipe branch provides the **pose-based AI detection technique** for the project.
+If you substitute a different image dataset, you must update the ground-truth CSV accordingly. The current experiment also asserts that there are exactly 20 images, so a larger or smaller dataset requires modifying that test.
 
-The camera/input component supplies an image frame, MediaPipe extracts the human pose landmarks, and the fall-detection component evaluates the torso orientation.
+## Evaluation procedure
 
-The intended integration flow is:
+`tests/test_mediapipe_images.py` evaluates:
 
-```text
-Camera
-   │
-   ▼
-OpenCV Frame
-   │
-   ▼
-MediaPipe Pose Detection
-   │
-   ▼
-Pose Landmarks
-   │
-   ▼
-Torso Angle Calculation
-   │
-   ▼
-Fall Classification
-   │
-   ▼
-System Indicator / Response
-```
+- **Five pose-detection confidence settings:** `0.3`, `0.4`, `0.5`, `0.6`, `0.7`.
+- **Eight torso-angle thresholds:** `30°`, `35°`, `40°`, `45°`, `50°`, `55°`, `60°`, `65°`.
+- **40 parameter combinations** across the 20 labelled images, producing 800 image-level classification rows.
 
-This branch therefore focuses on the AI detection and classification component rather than the final integrated system.
+Pose estimation is performed once per image for each confidence setting and cached before applying the different torso-angle thresholds. The experiment calculates true positives, true negatives, false positives, false negatives, accuracy, precision, recall and F1-score.
 
-## Limitations of the Current Implementation
+| Output | Contents | Expected rows |
+|---|---|---:|
+| `results/mediapipe_raw_results.csv` | Per-image pose detection and torso measurements at each confidence setting | 100 |
+| `results/mediapipe_image_results.csv` | Individual classifications for every confidence/threshold combination | 800 |
+| `results/mediapipe_combination_results.csv` | Confusion counts and aggregate metrics for each parameter combination | 40 |
 
-- The current `MediaPipePoseDetector` default is configured for one pose.
-- `get_landmarks()` uses only the first detected pose, even though the detector can be configured with a higher `num_poses` value. fileciteturn1file1L17-L23 fileciteturn1file1L96-L110
-- Fall classification is based primarily on torso orientation.
-- A person whose torso angle is above the selected threshold will not be classified as a fall.
-- If the required shoulder or hip landmarks are unavailable or have insufficient visibility, a torso angle cannot be calculated.
-- The parameter results are based on a 20-image test dataset and therefore do not establish performance across all possible real-world scenarios.
+These CSVs are **overwritten** when the experiment is rerun.
 
-## Summary
+### Recorded results
 
-The `feature/mediapipe` branch implements a pose-based fall-detection approach using the MediaPipe Pose Landmarker.
+The committed `mediapipe_combination_results.csv` includes configurations with **90% accuracy, 100% precision, 80% recall and an F1-score of approximately 88.89%** (TP = 8, TN = 10, FP = 0, FN = 2). These figures describe only this small 20-image test set and should not be interpreted as real-world fall-detection accuracy.
 
-The branch:
+## Limitations and privacy
 
-1. Detects human pose landmarks.
-2. Obtains the shoulder and hip landmarks.
-3. Calculates the torso orientation.
-4. Applies a torso-angle threshold.
-5. Classifies the pose as `FALL`, `NO_FALL`, or `NO_PERSON`.
-6. Tests multiple detection-confidence and torso-angle threshold combinations.
-7. Produces raw, image-level, and parameter-combination CSV results for evaluation.
+- This branch tests individual images, not continuous video or event-level fall detection.
+- The classifier depends on visible shoulder and hip landmarks and uses only torso orientation for fall classification.
+- The selected thresholds and results are based on a small, fixed collection of images; results may change with different people, camera angles and surroundings.
+- The repository contains test images. Anyone adding or replacing images should ensure appropriate permission to use or publish images of identifiable participants. Avoid committing private recordings or other personal data.
+- The final system's live detection, temporal processing, trained Random Forest classifier and caregiver notifications are **not** implemented by this branch.
 
-The branch is intended to provide the MediaPipe AI component that can later be connected to the camera input and system-level integration.
+## Relationship to the main project
+
+This prototype was used to investigate MediaPipe pose landmarks as an alternative to bounding-box-based object detection. Subsequent project branches developed temporal analysis and a trained Random Forest V3 classifier. Refer to `main` for the final live implementation and to `feature/classifier-training-evaluation` for the later classifier training/evaluation code.
