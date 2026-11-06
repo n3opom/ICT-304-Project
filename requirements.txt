@@ -1,4 +1,13 @@
+# Live MediaPipe temporal fall detection
 mediapipe==1.0.1
 opencv-python
 numpy
+
+# Included Random Forest training and offline evaluation scripts
+pandas
+openpyxl
+scikit-learn
+joblib
+
+# Automated component and temporal detector tests
 pytest
