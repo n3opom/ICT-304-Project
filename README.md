@@ -1,537 +1,135 @@
-# ICT-304 Project — YOLO Branch
+# ICT304 Intelligent Home Care System - YOLO Prototype
 
-## Overview
+**Branch:** `feature/yolo`  
+**Status:** Early experimental implementation; not the final live fall-detection application.
 
-The `feature/yolo` branch develops the **YOLO bounding-box** approach for the ICT-304 AI System Design fall-detection project.
+## Purpose
 
-The branch uses a YOLO model to detect objects in an image, identifies detections belonging to the `person` class, and then uses the person's bounding-box width-to-height ratio as the fall-detection feature.
+This branch explores a YOLO-based approach to identifying possible falls in still images. It uses a pretrained **YOLO11n object detector** (`yolo11n.pt`) to locate people, then applies a separate, hand-written rule to each person's bounding box. The rule compares the box's width-to-height ratio against a chosen threshold.
 
-The YOLO detector itself performs **object detection**. The separate fall-detection component interprets the bounding-box geometry to classify whether a detected person is considered to be falling.
+**Important:** YOLO identifies objects; it does not directly recognise fall events in this branch. The `FALL`/`NOT FALL` decision comes from the bounding-box ratio rule, not from a separately trained fall-classification model. This prototype does not implement temporal movement analysis, a continuous live-camera application, or caregiver alerts.
 
-## Branch Structure
+## Repository contents
 
 ```text
 ICT-304-Project/
-│
-├── .vscode/
-│
-├── data/
-│   └── test/
-│       └── [test images]
-│
-├── results/
-│   ├── yolo_combination_results.csv
-│   ├── yolo_confidence_raw_results.csv
-│   ├── yolo_image_results.csv
-│   ├── yolo_raw_results.csv
-│   └── yolo_threshold_results.csv
-│
-├── src/
-│   ├── yolo.py
-│   ├── yolo_detection.py
-│   └── yolo_fall_detection.py
-│
-├── tests/
-│   ├── test_yolo.py
-│   └── test_yolo_images.py
-│
-├── .gitignore
-├── README.md
-├── ground_truth.csv
-├── requirements.txt
-└── yolo11n.pt
+|-- data/
+|   `-- test/                        # 20 labelled test images
+|-- results/
+|   |-- yolo_confidence_raw_results.csv
+|   |-- yolo_image_results.csv
+|   |-- yolo_combination_results.csv
+|   |-- yolo_raw_results.csv
+|   `-- yolo_threshold_results.csv
+|-- src/
+|   |-- yolo.py                      # YOLO wrapper with person filtering
+|   |-- yolo_detection.py            # Alternative YOLO detection wrapper
+|   `-- yolo_fall_detection.py       # Bounding-box ratio and threshold rule
+|-- tests/
+|   |-- test_yolo.py                 # Basic detector tests
+|   `-- test_yolo_images.py          # Image-based parameter experiment
+|-- ground_truth.csv                 # Image names and activity labels
+|-- yolo11n.pt                       # Pretrained YOLO11n weights
+|-- requirements.txt
+`-- README.md
 ```
 
-## YOLO Model
+The repository also contains historical result files. The **current** `tests/test_yolo_images.py` script directly writes `yolo_confidence_raw_results.csv`, `yolo_image_results.csv`, and `yolo_combination_results.csv`. The other two result files are retained experiment artifacts, not outputs produced by that script.
 
-The branch includes:
+## How detection works
 
-```text
-yolo11n.pt
-```
+1. `src/yolo.py` loads the pretrained YOLO11n model and runs object detection on an image.
+2. `YOLODetector.detect_persons()` keeps only detections whose class name is `person`.
+3. `calculate_bbox_ratio()` in `src/yolo_fall_detection.py` calculates `(x2 - x1) / (y2 - y1)` from each person's bounding box. A box with nonpositive height returns a ratio of `0.0`.
+4. `classify_fall(ratio, threshold)` returns `True` when `ratio >= threshold`.
+5. In the image experiment, an image is predicted as `FALL` if **any** detected person meets the ratio threshold. An image with no detected people is predicted `NOT FALL`.
 
-This is the YOLO model used by the detector.
+A wide bounding box may be consistent with a horizontal posture, but it does not prove that a person has fallen. Camera viewpoint, occlusion, sitting, lying down, and bounding-box accuracy can affect this heuristic.
 
-The detector wrapper is implemented in:
+## Test images and ground truth
 
-```text
-src/yolo.py
-```
+- Images are read from `data/test/`.
+- `ground_truth.csv` maps image filenames to their labelled condition using the columns `image,condition`.
+- This branch includes **20 images** and **20 ground-truth entries**: 10 labelled `falling` and 10 labelled with non-fall conditions (`sitting` or `standing`).
+- The image experiment expects these exact counts. Replacing or extending the dataset requires updating the assertions in `tests/test_yolo_images.py`.
 
-and uses the Ultralytics YOLO interface.
-
-The detector accepts a model path and a confidence value:
-
-```python
-YOLODetector(
-    model_path="yolo11n.pt",
-    confidence=0.5
-)
-```
-
-The default confidence value in the detector is `0.5`. fileciteturn4file0L4-L9
-
-## YOLO Detection
-
-The detector receives an OpenCV image/frame and runs YOLO inference using the configured confidence threshold.
-
-For each detected object, it records:
-
-- Class ID
-- Class name
-- Detection confidence
-- Bounding-box coordinates
-
-The bounding box is represented as:
-
-```text
-(x1, y1, x2, y2)
-```
-
-where the coordinates describe the top-left and bottom-right corners of the detected object. fileciteturn4file0L11-L19 fileciteturn4file0L38-L55
-
-The detector also provides a method for filtering the detections so that only objects classified as `person` are retained. fileciteturn4file1L61-L75
-
-## Bounding-Box Fall Detection
-
-The fall-detection logic is implemented in:
-
-```text
-src/yolo_fall_detection.py
-```
-
-The system calculates the width-to-height ratio of each detected person's bounding box:
-
-```text
-ratio = width / height
-```
-
-The width and height are calculated from the bounding-box coordinates:
-
-```text
-width  = x2 - x1
-height = y2 - y1
-```
-
-If the height is zero or negative, the function returns `0.0`. fileciteturn4file2L1-L15
-
-### Classification Rule
-
-The fall classifier compares the bounding-box ratio with a supplied threshold:
-
-```text
-ratio >= threshold  → FALL
-ratio < threshold   → NOT FALL
-```
-
-The classification function therefore uses the bounding box's shape as the fall indicator rather than body-pose landmarks. fileciteturn4file2L18-L24
-
-Conceptually:
-
-```text
-              Bounding Box
-          ┌──────────────────┐
-          │                  │
-          │      Person      │
-          │                  │
-          └──────────────────┘
-              width / height
-                    │
-                    ▼
-             Compare Ratio
-                    │
-          ┌─────────┴─────────┐
-          ▼                   ▼
-    ratio >= threshold   ratio < threshold
-          │                   │
-          ▼                   ▼
-        FALL              NOT FALL
-```
-
-## Test Dataset
-
-The test images are stored in:
-
-```text
-data/test/
-```
-
-The ground-truth labels are stored in:
-
-```text
-ground_truth.csv
-```
-
-The image-testing script loads the ground-truth file and maps each image filename to its expected condition. fileciteturn4file4L30-L45
-
-The test procedure expects:
-
-```text
-20 test images
-20 ground-truth entries
-```
-
-and explicitly asserts both counts. fileciteturn4file4L114-L122
-
-## Parameter Testing
-
-The branch tests two parameters:
-
-### 1. YOLO confidence threshold
-
-The following five confidence values are tested:
-
-```text
-0.5
-0.4
-0.3
-0.2
-0.1
-```
-
-### 2. Fall-detection bounding-box threshold
-
-The following eight thresholds are tested:
-
-```text
-0.7
-0.8
-0.9
-1.0
-1.1
-1.2
-1.3
-1.4
-```
-
-This produces:
-
-```text
-5 × 8 = 40 parameter combinations
-```
-
-The parameter values are defined directly in `test_yolo_images.py`. fileciteturn4file4L9-L18
-
-For each confidence level, YOLO is run across all 20 test images. The detected people and their bounding-box ratios are then stored before evaluating every confidence × fall-threshold combination. fileciteturn4file4L129-L176 fileciteturn4file4L229-L285
-
-## Multi-Person Handling
-
-The testing implementation does not assume that an image contains only one detected person.
-
-For every image, all detected `person` objects are collected and their bounding-box ratios are calculated. fileciteturn4file4L155-L176
-
-During classification, **any detected person exceeding the fall threshold can cause the image to be classified as `FALL`**:
-
-```text
-If at least one detected person
-has ratio >= threshold
-        │
-        ▼
-      FALL
-```
-
-This behaviour is implemented explicitly in the image-testing code. fileciteturn4file4L260-L292
-
-## Result Files
-
-The branch generates several CSV files in the `results/` directory.
-
-### `yolo_confidence_raw_results.csv`
-
-Contains raw YOLO detections generated across the tested confidence levels.
-
-The stored information includes:
-
-- Confidence threshold
-- Image
-- Ground-truth condition
-- Number of detected persons
-- Person detection confidences
-- Bounding-box ratios
-
-The testing code writes these fields to the raw-results CSV. fileciteturn4file4L179-L220
-
-### `yolo_image_results.csv`
-
-Contains the result for each individual image and parameter combination.
-
-The output includes:
-
-- Confidence
-- Fall threshold
-- Image
-- Actual condition
-- Predicted result
-- TP/TN/FP/FN classification
-- Correct/incorrect result
-- Person count
-- Bounding-box ratios
-- Prediction reason
-
-These fields are written by the image-level results stage. fileciteturn4file4L385-L424
-
-### `yolo_combination_results.csv`
-
-Contains the aggregate performance for each confidence × threshold combination.
-
-The recorded metrics include:
-
-- Correct
-- Incorrect
-- True Positive
-- True Negative
-- False Positive
-- False Negative
-- Accuracy
-- Precision
-- Recall
-- F1 score
-
-fileciteturn4file4L433-L476
-
-### `yolo_raw_results.csv` and `yolo_threshold_results.csv`
-
-These are also present in the branch's `results/` directory and represent additional generated result outputs from the YOLO testing/evaluation workflow.
-
-Their exact generation logic should be interpreted from the corresponding historical test scripts/results rather than assumed to have identical schemas to the current combination and image-level result files.
-
-## Evaluation Metrics
-
-The testing code calculates:
-
-### Accuracy
-
-```text
-(TP + TN) / (TP + TN + FP + FN)
-```
-
-### Precision
-
-```text
-TP / (TP + FP)
-```
-
-### Recall
-
-```text
-TP / (TP + FN)
-```
-
-### F1 Score
-
-```text
-2 × Precision × Recall
-----------------------
-   Precision + Recall
-```
-
-The implementation explicitly calculates these four metrics after each confidence × threshold combination. fileciteturn4file4L63-L110
-
-## Measured Experiment Size
-
-The testing code verifies that the image-level experiment contains:
-
-```text
-20 images × 40 parameter combinations = 800 cases
-```
-
-and verifies that 40 aggregate parameter combinations are produced. fileciteturn4file4L544-L547
-
-The supplied result files contain:
-
-```text
-Combination results: 40 rows
-Image-level results: 800 rows
-Ground-truth entries: 20 rows
-```
-
-The tested confidence values and thresholds in the supplied combination results are:
-
-```text
-Confidence values: [0.1, 0.2, 0.3, 0.4, 0.5]
-Threshold values: [0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4]
-```
-
-## Classification and Error Analysis
-
-For every image/parameter combination, the testing script assigns one of:
-
-```text
-TP  = True Positive
-TN  = True Negative
-FP  = False Positive
-FN  = False Negative
-```
-
-It also records whether the individual prediction was correct and provides a reason for the prediction. fileciteturn4file4L294-L353
-
-The script additionally prints the misclassified image/parameter cases, including:
-
-- Confidence
-- Threshold
-- Image
-- Actual condition
-- Predicted condition
-- Classification
-- Bounding-box ratios
-- Prediction reason
-
-This provides a way to identify which images were misclassified under particular parameter combinations. fileciteturn4file4L509-L541
-
-## Unit Tests
-
-The basic YOLO tests are located in:
-
-```text
-tests/test_yolo.py
-```
-
-The current tests verify that:
-
-1. The YOLO model can be loaded.
-2. Passing `None` as an input frame raises a `ValueError`.
-3. The detector accepts and stores a specified confidence value.
-
-These tests are implemented in `test_yolo.py`. fileciteturn4file3L4-L23
-
-The larger image-based experiment is located in:
-
-```text
-tests/test_yolo_images.py
-```
-
-This test performs the confidence × fall-threshold experiment and generates the CSV results.
+Only use images for which you have appropriate permission. Do not upload private participant images without their consent.
 
 ## Installation
 
-Create and activate a virtual environment if required:
+Run commands from the repository root, where `requirements.txt` and `yolo11n.pt` are located. A compatible Python installation is required.
 
-```bash
-python -m venv venv
+For Windows PowerShell, an optional virtual environment can be created **outside the repository**:
+
+```powershell
+py -m venv ..\ict304-yolo-venv
+..\ict304-yolo-venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
 ```
 
-Windows:
+Alternatively, install into an existing Python environment:
 
-```bash
-venv\Scripts\activate
+```powershell
+py -m pip install -r requirements.txt
 ```
 
-Install the branch dependencies:
+The direct branch dependencies are:
 
-```bash
-pip install -r requirements.txt
-```
+- `ultralytics` - YOLO11n inference
+- `opencv-python` - OpenCV image support
+- `pytest` - basic tests and the image experiment
 
-The branch requirements are:
+The pretrained `yolo11n.pt` model file is already included. You do not need to train a YOLO model to run these tests.
 
-```text
-ultralytics
-opencv-python
-pytest
-```
-
-The YOLO model file is included in the repository:
-
-```text
-yolo11n.pt
-```
-
-## Running the Tests
+## Running tests and experiments
 
 From the project root:
 
-```bash
-pytest -v
+```powershell
+python -m pytest tests/test_yolo.py -v
 ```
 
-To run the basic YOLO unit tests:
+This runs three basic tests covering model loading, rejection of `None` input, and confidence configuration.
 
-```bash
-pytest tests/test_yolo.py -v
+To run the complete image experiment:
+
+```powershell
+python -m pytest tests/test_yolo_images.py -v -s
 ```
 
-To run the image-based parameter experiment:
+The `-s` flag displays the printed experiment results. The experiment tests:
 
-```bash
-pytest tests/test_yolo_images.py -v
+- YOLO confidence thresholds: `0.5`, `0.4`, `0.3`, `0.2`, `0.1`
+- Fall ratio thresholds: `0.7`, `0.8`, `0.9`, `1.0`, `1.1`, `1.2`, `1.3`, `1.4`
+
+This produces **40 parameter combinations** and **800 image/parameter classification cases** (20 images x 40 combinations). The program calculates true positives, true negatives, false positives, false negatives, accuracy, precision, recall, and F1-score for each combination.
+
+To run both test files:
+
+```powershell
+python -m pytest tests/ -v -s
 ```
 
-The image experiment creates the `results/` directory when required and writes the generated CSV outputs there. fileciteturn4file4L114-L118
+**Note:** The image experiment performs model inference across the test images, rather than being a small isolated unit test. It rewrites the three current experiment CSV outputs in `results/`.
 
-## YOLO Processing Pipeline
+## Results files
 
-The branch processing flow can be represented as:
+| File | Meaning |
+| --- | --- |
+| `results/yolo_confidence_raw_results.csv` | Person detections and bounding-box ratios at each confidence setting |
+| `results/yolo_image_results.csv` | Prediction and TP/TN/FP/FN outcome for each image/parameter combination |
+| `results/yolo_combination_results.csv` | Aggregated confusion counts and classification metrics for the 40 combinations |
+| `results/yolo_raw_results.csv` | Historical image-level detection results retained in this branch |
+| `results/yolo_threshold_results.csv` | Historical threshold-level evaluation results retained in this branch |
 
-```text
-Input Image
-     │
-     ▼
-YOLO Object Detection
-     │
-     ▼
-Detect Person Bounding Box
-     │
-     ▼
-Calculate Width / Height Ratio
-     │
-     ▼
-Compare Against Threshold
-     │
-     ├── Ratio >= Threshold
-     │       │
-     │       ▼
-     │      FALL
-     │
-     └── Ratio < Threshold
-             │
-             ▼
-          NOT FALL
-```
+The current experiment writes the first three files above. Run the test again to regenerate those results using the code and dataset in your local checkout.
 
-For images containing multiple detected people, the current evaluation logic treats the image as a fall if at least one detected person exceeds the configured ratio threshold.
+## Limitations and project relationship
 
-## Role in the Overall AI System
+- The width-to-height threshold is a manually selected heuristic, not a learned fall classifier.
+- A single still image cannot establish whether a person underwent a rapid fall or deliberately lay down.
+- Incorrect or missing person bounding boxes can lead to incorrect classifications.
+- The 20-image dataset is small and does not establish performance in unseen home environments.
+- This branch contains no `main.py` live application and does not send caregiver notifications.
 
-The YOLO branch provides the **bounding-box-based AI fall-detection technique** for comparison with the MediaPipe Pose approach.
-
-Its processing is based on:
-
-```text
-Object Detection
-      ↓
-Person Bounding Box
-      ↓
-Bounding-Box Geometry
-      ↓
-Fall Classification
-```
-
-Unlike the MediaPipe branch, which uses body landmarks and torso orientation, this branch uses the geometry of the detected person's bounding box.
-
-## Limitations of the Current Approach
-
-- YOLO detects the person but does not inherently classify the person as falling; the fall decision is produced by the separate bounding-box ratio rule.
-- The fall decision depends on a manually tested width-to-height threshold.
-- The bounding-box ratio does not directly describe the person's actual body pose.
-- Different camera angles, distances, occlusion, and body positions can change the bounding-box shape.
-- The current evaluation treats an image as `FALL` if **any** detected person exceeds the threshold.
-- The measured results are based on the supplied 20-image dataset and should not be interpreted as a general real-world performance guarantee.
-
-## Summary
-
-The `feature/yolo` branch implements a YOLO-based bounding-box approach for fall detection.
-
-The branch:
-
-1. Loads the YOLO model.
-2. Detects objects in an input image.
-3. Filters detections for the `person` class.
-4. Extracts each person's bounding box.
-5. Calculates the bounding-box width-to-height ratio.
-6. Applies a configurable fall threshold.
-7. Evaluates multiple confidence and threshold combinations.
-8. Produces image-level and aggregate performance results.
-9. Records TP, TN, FP, FN, accuracy, precision, recall, and F1 score.
-10. Provides unit tests for the YOLO detector and an image-based evaluation test.
-
-This branch provides the YOLO bounding-box implementation used for comparison with the MediaPipe Pose technique before selecting the approach for system integration.
+This branch preserves an earlier YOLO investigation for comparison with the MediaPipe pose-based approach. The **official live Random Forest V3 implementation** is maintained separately in `main` and `feature/final-implementation`. This branch should not be mistaken for that completed implementation.
