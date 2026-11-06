@@ -1,15 +1,15 @@
-# Webcam and pose estimation
+# Camera input and pose-landmark detection
 mediapipe==1.0.1
 opencv-python
 numpy
 
-# Data processing and Excel labels
+# Labelled-video datasets and Excel ground truth
 pandas
 openpyxl
 
-# Random Forest training and inference
+# Random Forest training, evaluation and live inference
 scikit-learn
 joblib
 
-# Testing
+# Camera, MediaPipe and historical temporal-detector tests
 pytest
